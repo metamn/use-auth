@@ -18,4 +18,4 @@ React authentication hook
 - email + password + token
 - and more
 
-See [README.md](./src/hooks/useAuth/useAuth.md) for details
+See the [hook docs](./src/hooks/useAuth/useAuth.md) for details.

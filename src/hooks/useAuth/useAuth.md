@@ -28,6 +28,6 @@ auth = {
 ### Local (email + password)
 
 Plain email and password authentication.
-It's useful for testing restricted access or protected areas.
+It's useful for testing restricted access points or protected areas.
 
-Please consult [README.md](./strategies/useAuthStrategyLocal/useAuthStrategyLocal.md)
+Please consult [the hook docs](./strategies/useAuthStrategyLocal/useAuthStrategyLocal.md) for details.
