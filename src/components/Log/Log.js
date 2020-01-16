@@ -2,23 +2,16 @@ import React from "react";
 
 import { useAuth } from "./../../hooks";
 
-const credentialsLocalOk = {
-  email: "test@test.com",
-  password: "1234"
-};
-
-const credentialsLocalErr = {
-  email: "test@test.com1",
-  password: "1234"
-};
-
 /**
  * Displays the auth object
  */
 const Log = props => {
   const { isAuthenticated, login, logout, strategy, message } = useAuth();
 
-  const credentials = credentialsLocalErr;
+  const credentials = {
+    email: "test@test.com",
+    password: "1234"
+  };
 
   const button = isAuthenticated ? (
     <button onClick={() => logout()}>Logout</button>

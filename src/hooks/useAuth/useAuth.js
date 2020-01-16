@@ -69,12 +69,16 @@ const useAuthProvider = strategy => {
   switch (strategy) {
     case "local":
       return local;
-      break;
     case "none":
     default:
       return defaultProps;
   }
 };
+
+/**
+ * Just to remove the console warning ...
+ */
+useAuthProvider.props = propTypes;
 
 /**
  * Defines a context where auth is stored and shared

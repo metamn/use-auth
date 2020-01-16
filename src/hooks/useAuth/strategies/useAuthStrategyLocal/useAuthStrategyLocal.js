@@ -3,7 +3,7 @@
  *
  * @see useAuthStrategyLocal.md for details
  */
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 /**
@@ -48,7 +48,7 @@ const defaultProps = {
     email: "test@test.com",
     password: "1234"
   },
-  login: ({}) => {
+  login: () => {
     return console.log("Local auth login");
   },
   logout: () => {
@@ -107,5 +107,10 @@ const useAuthStrategyLocal = () => {
     message
   };
 };
+
+/**
+ * Just to remove the console warning ...
+ */
+useAuthStrategyLocal.props = propTypes;
 
 export { useAuthStrategyLocal };
