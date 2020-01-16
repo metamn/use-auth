@@ -3,7 +3,7 @@
  *
  * @see useAuthStrategyLocal.md for details
  */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 /**
@@ -61,13 +61,18 @@ const defaultProps = {
 /**
  * Displays the component
  */
-const authStrategyLocal = () => {
-  let { user, message, strategy } = defaultProps;
+const useAuthStrategyLocal = () => {
+  let { user, strategy } = defaultProps;
 
   /**
    * Manages auth state
    */
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  /**
+   * Manages the message content
+   */
+  const [message, setMessage] = useState("");
 
   /**
    * Defines the login function
@@ -78,11 +83,10 @@ const authStrategyLocal = () => {
 
     if (email === defaultEmail && password === defaultPassword) {
       setIsAuthenticated(true);
-      message = "Vali credentials";
+      setMessage("Login ok");
     } else {
       setIsAuthenticated(false);
-      user = {};
-      message = "Invalid credentials";
+      setMessage("Invalid credentials");
     }
   };
 
@@ -91,8 +95,7 @@ const authStrategyLocal = () => {
    */
   const logout = () => {
     setIsAuthenticated(false);
-    user = {};
-    message = "Logout done";
+    setMessage("Logout done");
   };
 
   return {
@@ -105,4 +108,4 @@ const authStrategyLocal = () => {
   };
 };
 
-export { authStrategyLocal };
+export { useAuthStrategyLocal };

@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 /**
  * Imports strategies
  */
-import { authStrategyLocal } from "./strategies/authStrategyLocal";
+import { useAuthStrategyLocal } from "./strategies/useAuthStrategyLocal/";
 
 /**
  * Defines the prop types
@@ -64,7 +64,7 @@ const defaultProps = {
  * - Implements an authentication strategy
  */
 const useAuthProvider = strategy => {
-  const local = authStrategyLocal();
+  const local = useAuthStrategyLocal();
 
   switch (strategy) {
     case "local":

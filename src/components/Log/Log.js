@@ -16,9 +16,15 @@ const credentialsLocalErr = {
  * Displays the auth object
  */
 const Log = props => {
-  const { isAuthenticated, user, login, logout, strategy } = useAuth();
+  const { isAuthenticated, login, logout, strategy, message } = useAuth();
 
-  const link = isAuthenticated ? logout() : login(credentialsLocalOk);
+  const credentials = credentialsLocalErr;
+
+  const button = isAuthenticated ? (
+    <button onClick={() => logout()}>Logout</button>
+  ) : (
+    <button onClick={() => login(credentials)}>Login</button>
+  );
 
   return (
     <div className="Log">
@@ -27,8 +33,11 @@ const Log = props => {
         <li key="isAuthenticated">
           isAuthenticated: {JSON.stringify(isAuthenticated)}
         </li>
-        <li key="user">User: {JSON.stringify(user, null, 2)}</li>
-        <li key="link">Link: {link}</li>
+        <li key="credentials">
+          Credentials: {JSON.stringify(credentials, null, 2)}
+        </li>
+        <li key="message">Message: {message}</li>
+        <li key="button">{button}</li>
       </ul>
     </div>
   );
