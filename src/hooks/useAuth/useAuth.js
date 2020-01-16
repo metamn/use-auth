@@ -44,10 +44,10 @@ const defaultProps = {
   isAuthenticated: false,
   user: {},
   login: () => {
-    console.log("Login");
+    return "Login";
   },
   logout: () => {
-    console.log("Logout");
+    return "logout";
   },
   strategy: "none"
 };

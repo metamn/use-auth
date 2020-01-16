@@ -8,6 +8,8 @@ import { useAuth } from "./../../hooks";
 const Log = props => {
   const { isAuthenticated, user, login, logout } = useAuth();
 
+  const link = isAuthenticated ? logout() : login();
+
   return (
     <div className="Log">
       <ul>
@@ -15,6 +17,7 @@ const Log = props => {
           isAuthenticated:{JSON.stringify(isAuthenticated)}
         </li>
         <li key="user">User:{JSON.stringify(user, null, 2)}</li>
+        <li key="link">Link: {link}</li>
       </ul>
     </div>
   );
