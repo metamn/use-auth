@@ -2,13 +2,13 @@
  * The authentication hook
  *
  * Offers:
- * - `<ProvideAuth>` - A top level auth provider
+ * - `<AuthProvider>` - A top level auth provider
  * - `useAuth` - A hook to be called by components
- * - `useProvideAuth` - An auth strategy
+ * - `useAuthProvider` - An auth strategy
  *
  * @see useAuth.md for details
  */
-import React, { useState, useEffect, useContext, createContext } from "react";
+import React, { useContext, createContext } from "react";
 import PropTypes from "prop-types";
 
 /**
@@ -58,8 +58,9 @@ const defaultProps = {
  * - Returns the isAuthenticated flag, the user object and the auth methods
  * - Implements an authentication strategy
  */
-const useProvideAuth = strategy => {
+const useAuthProvider = strategy => {
   switch (strategy) {
+    case "none":
     default:
       return defaultProps;
   }
@@ -79,8 +80,8 @@ const authContext = createContext();
  * - This is the main auth provider
  * - It makes the auth object available to any child component that calls `useAuth`.
  */
-const ProvideAuth = ({ strategy, children }) => {
-  const auth = useProvideAuth(strategy);
+const AuthProvider = ({ strategy, children }) => {
+  const auth = useAuthProvider(strategy);
 
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };
@@ -95,4 +96,4 @@ const useAuth = () => {
   return useContext(authContext);
 };
 
-export { useAuth, ProvideAuth };
+export { useAuth, AuthProvider };
