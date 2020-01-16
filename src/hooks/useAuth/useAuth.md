@@ -8,7 +8,7 @@ Please consult [Passport.js strategies](http://www.passportjs.org/packages/) whe
 
 ### Default (none)
 
-Used for demo purposes.
+Used for demo / learning purposes.
 Returns an empty auth object:
 
 ```js
@@ -25,8 +25,9 @@ auth = {
 };
 ```
 
-### Local
+### Local (email + password)
 
 Plain email and password authentication.
+It's useful for testing restricted access or protected areas.
 
-Please consult [README.md](./strategies/authStrategyLocal/authStrategyLocal.md)
+Please consult [README.md](./strategies/useAuthStrategyLocal/useAuthStrategyLocal.md)
