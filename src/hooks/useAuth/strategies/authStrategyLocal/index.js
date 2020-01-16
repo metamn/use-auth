@@ -1,5 +1,1 @@
-export {
-  default,
-  authStrategyLocalPropTypes,
-  authStrategyLocalDefaultProps
-} from "./authStrategyLocal";
+export { authStrategyLocal } from "./authStrategyLocal";

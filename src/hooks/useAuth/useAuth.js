@@ -12,6 +12,11 @@ import React, { useContext, createContext } from "react";
 import PropTypes from "prop-types";
 
 /**
+ * Imports strategies
+ */
+import { authStrategyLocal } from "./strategies/authStrategyLocal";
+
+/**
  * Defines the prop types
  */
 const propTypes = {
@@ -34,7 +39,7 @@ const propTypes = {
   /**
    * The authentication strategy
    */
-  strategy: PropTypes.oneOf["none"]
+  strategy: PropTypes.oneOf[("none", "local")]
 };
 
 /**
@@ -60,6 +65,9 @@ const defaultProps = {
  */
 const useAuthProvider = strategy => {
   switch (strategy) {
+    case "local":
+      return authStrategyLocal();
+      break;
     case "none":
     default:
       return defaultProps;
