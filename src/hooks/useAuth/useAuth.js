@@ -64,9 +64,11 @@ const defaultProps = {
  * - Implements an authentication strategy
  */
 const useAuthProvider = strategy => {
+  const local = authStrategyLocal();
+
   switch (strategy) {
     case "local":
-      return authStrategyLocal();
+      return local;
       break;
     case "none":
     default:
