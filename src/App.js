@@ -2,12 +2,13 @@ import React from "react";
 
 import { AuthProvider } from "./hooks";
 
-import Log from "./components/Log";
+import DefaultStrategy from "./components/DefaultStrategy";
+import LocalStrategy from "./components/LocalStrategy";
 
 const App = () => {
   return (
     <AuthProvider strategy="none">
-      <Log />
+      <DefaultStrategy />
     </AuthProvider>
   );
 };

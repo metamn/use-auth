@@ -4,7 +4,7 @@
  * Offers:
  * - `<AuthProvider>` - A top level auth provider
  * - `useAuth` - A hook to be called by components
- * - `useAuthProvider` - An auth strategy
+ * - `useAuthStrategy` - An auth strategy of choice
  *
  * @see useAuth.md for details
  */
@@ -26,7 +26,7 @@ import { useAuthStrategyLocal } from "./strategies/useAuthStrategyLocal/";
  * - Returns the isAuthenticated flag, the user object and the auth methods
  * - Implements an authentication strategy
  */
-const useAuthProvider = strategy => {
+const useAuthStrategy = strategy => {
   const defaultStrategy = useAuthStrategyDefault();
   const localStrategy = useAuthStrategyLocal();
 
@@ -54,7 +54,7 @@ const authContext = createContext();
  * - It makes the auth object available to any child component that calls `useAuth`.
  */
 const AuthProvider = ({ strategy, children }) => {
-  const auth = useAuthProvider(strategy);
+  const auth = useAuthStrategy(strategy);
 
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };

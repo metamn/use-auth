@@ -28,7 +28,11 @@ const propTypes = {
   /**
    * The authentication strategy
    */
-  strategy: PropTypes.oneOf[("none", "local")]
+  strategy: PropTypes.string,
+  /**
+   * The message in case of an error
+   */
+  message: PropTypes.string
 };
 
 /**
@@ -43,7 +47,8 @@ const defaultProps = {
   logout: () => {
     console.log("Logout");
   },
-  strategy: "none"
+  strategy: "none",
+  message: "Just for demo purposes"
 };
 
 /**
