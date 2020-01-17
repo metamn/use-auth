@@ -18,7 +18,8 @@ import { useAuthStrategyDefault } from "./strategies/useAuthStrategyDefault/";
 /**
  * Imports a strategy. Perhaps one specific to a project
  */
-import { useAuthStrategyLocal } from "./strategies/useAuthStrategyLocal/";
+//import { useAuthStrategyLocal } from "./strategies/useAuthStrategyLocal/";
+import { useAuthStrategyTokenFinster } from "./strategies/useAuthStrategyTokenFinster";
 
 /**
  * Manages the authentication.
@@ -28,11 +29,12 @@ import { useAuthStrategyLocal } from "./strategies/useAuthStrategyLocal/";
  */
 const useAuthStrategy = strategy => {
   const defaultStrategy = useAuthStrategyDefault();
-  const localStrategy = useAuthStrategyLocal();
+  //const localStrategy = useAuthStrategyLocal();
+  const finsterStrategy = useAuthStrategyTokenFinster();
 
   switch (strategy) {
-    case "local":
-      return localStrategy;
+    case "finster":
+      return finsterStrategy;
     case "none":
     default:
       return defaultStrategy;
