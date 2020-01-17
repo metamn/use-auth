@@ -1,5 +1,1 @@
-export {
-  default,
-  LocalStrategyPropTypes,
-  LocalStrategyDefaultProps
-} from "./LocalStrategy";
+export { default } from "./LocalStrategy";

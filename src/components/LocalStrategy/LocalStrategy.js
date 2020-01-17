@@ -1,28 +1,39 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-/**
- * Defines the prop types
- */
-const propTypes = {};
-
-/**
- * Defines the default props
- */
-const defaultProps = {};
+import { useAuth } from "./../../hooks";
 
 /**
  * Displays the component
  */
 const LocalStrategy = props => {
-  return <div className="LocalStrategy">LocalStrategy</div>;
-};
+  const { isAuthenticated, login, logout, strategy, message } = useAuth();
 
-LocalStrategy.propTypes = propTypes;
-LocalStrategy.defaultProps = defaultProps;
+  const credentials = {
+    email: "test@test.com",
+    password: "1234"
+  };
+
+  const button = isAuthenticated ? (
+    <button onClick={() => logout()}>Logout</button>
+  ) : (
+    <button onClick={() => login(credentials)}>Login</button>
+  );
+
+  return (
+    <div className="LocalStrategy">
+      <ul>
+        <li key="strategy">Strategy: {strategy}</li>
+        <li key="isAuthenticated">
+          isAuthenticated: {JSON.stringify(isAuthenticated)}
+        </li>
+        <li key="credentials">
+          Credentials: {JSON.stringify(credentials, null, 2)}
+        </li>
+        <li key="message">Message: {message}</li>
+        <li key="button">{button}</li>
+      </ul>
+    </div>
+  );
+};
 
 export default LocalStrategy;
-export {
-  propTypes as LocalStrategyPropTypes,
-  defaultProps as LocalStrategyDefaultProps
-};
