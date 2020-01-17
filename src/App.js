@@ -6,7 +6,7 @@ import Log from "./components/Log";
 
 const App = () => {
   return (
-    <AuthProvider strategy="local">
+    <AuthProvider strategy="none">
       <Log />
     </AuthProvider>
   );

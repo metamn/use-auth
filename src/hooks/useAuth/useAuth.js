@@ -9,53 +9,16 @@
  * @see useAuth.md for details
  */
 import React, { useContext, createContext } from "react";
-import PropTypes from "prop-types";
 
 /**
- * Imports strategies
+ * Imports the default strategy. This will act as a fallback
+ */
+import { useAuthStrategyDefault } from "./strategies/useAuthStrategyDefault/";
+
+/**
+ * Imports a strategy. Perhaps one specific to a project
  */
 import { useAuthStrategyLocal } from "./strategies/useAuthStrategyLocal/";
-
-/**
- * Defines the prop types
- */
-const propTypes = {
-  /**
-   * Tells if the user is authenticated
-   */
-  isAuthenticated: PropTypes.bool,
-  /**
-   * Returns the user object
-   */
-  user: PropTypes.object,
-  /**
-   * Defines the login function
-   */
-  login: PropTypes.func,
-  /**
-   * Defines the logout function
-   */
-  logout: PropTypes.func,
-  /**
-   * The authentication strategy
-   */
-  strategy: PropTypes.oneOf[("none", "local")]
-};
-
-/**
- * Defines the default props
- */
-const defaultProps = {
-  isAuthenticated: false,
-  user: {},
-  login: () => {
-    return "Login";
-  },
-  logout: () => {
-    return "logout";
-  },
-  strategy: "none"
-};
 
 /**
  * Manages the authentication.
@@ -64,21 +27,17 @@ const defaultProps = {
  * - Implements an authentication strategy
  */
 const useAuthProvider = strategy => {
-  const local = useAuthStrategyLocal();
+  const defaultStrategy = useAuthStrategyDefault();
+  const localStrategy = useAuthStrategyLocal();
 
   switch (strategy) {
     case "local":
-      return local;
+      return localStrategy;
     case "none":
     default:
-      return defaultProps;
+      return defaultStrategy;
   }
 };
-
-/**
- * Just to remove the console warning ...
- */
-useAuthProvider.props = propTypes;
 
 /**
  * Defines a context where auth is stored and shared
