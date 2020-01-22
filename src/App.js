@@ -4,12 +4,13 @@ import { AuthProvider } from "./hooks";
 
 //import DefaultStrategy from "./components/DefaultStrategy";
 //import LocalStrategy from "./components/LocalStrategy";
-import FinsterStrategy from "./components/FinsterStrategy";
+//import FinsterStrategy from "./components/FinsterStrategy";
+import ReqresStrategy from "./components/ReqresStrategy";
 
 const App = () => {
   return (
-    <AuthProvider strategy="finster">
-      <FinsterStrategy />
+    <AuthProvider strategy="reqres">
+      <ReqresStrategy />
     </AuthProvider>
   );
 };

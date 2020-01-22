@@ -3,7 +3,7 @@
  *
  * @see useAuthStrategyTokenReqres.md for details
  */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import useData, {
@@ -77,9 +77,58 @@ const defaultProps = {
  * Displays the component
  */
 const useAuthStrategyTokenReqres = props => {
-  return (
-    <div className="useAuthStrategyTokenReqres">useAuthStrategyTokenReqres</div>
-  );
+  /**
+   * Loads default props and retuns them until they'll be overwritten
+   */
+  let { user, strategy, login, logout, api: defaultApi } = defaultProps;
+
+  /**
+   * Manages auth state
+   */
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  /**
+   * Manages the message content
+   */
+  const [message, setMessage] = useState("");
+
+  /**
+   * Manages the API calls
+   *
+   * - Anytime the `api` value is changing a new API call is made
+   */
+  const [api, setApi] = useState(defaultApi);
+
+  /**
+   * Performs an API call
+   */
+  const { data } = useData(api);
+
+  useEffect(() => {
+    if (data && data.status) {
+      setIsAuthenticated(data.status !== "error");
+      setMessage(data.user_message);
+    } else {
+      setMessage(data);
+    }
+  }, [data, api]);
+
+  /**
+   * Defines the login function
+   */
+  login = props => {
+    setApi({ ...api, key: props });
+  };
+
+  /**
+   * Defines the logout function
+   */
+  logout = () => {
+    setIsAuthenticated(false);
+    setMessage("Logout done");
+  };
+
+  return { isAuthenticated, user, login, logout, strategy, message };
 };
 
 useAuthStrategyTokenReqres.propTypes = propTypes;
