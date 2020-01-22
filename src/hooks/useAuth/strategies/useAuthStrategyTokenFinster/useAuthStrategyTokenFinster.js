@@ -6,6 +6,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
+import useData from "../../../useData";
+
 /**
  * Defines the prop types
  */
@@ -78,7 +80,7 @@ const useAuthStrategyTokenFinster = props => {
   const [message, setMessage] = useState("");
 
   /**
-   * Checks is the user is logged in
+   * Checks if the user is logged in
    */
   const isLoggedIn = () => {};
 
