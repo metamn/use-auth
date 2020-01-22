@@ -2,16 +2,17 @@ import React from "react";
 
 import { useAuth } from "./../../hooks";
 
+const credentials = {
+  email: "p.schinkel+5@vacat.nl",
+  password: "test123"
+};
+
 /**
  * Displays the component
  */
 const FinsterStrategy = props => {
   const { isAuthenticated, login, logout, strategy, message } = useAuth();
 
-  const credentials = {
-    email: "p.schinkel+5@vacat.nl",
-    password: "test123"
-  };
   const { email, password } = credentials;
   const apiKey = `http://api.finsterdata.com/v1/login?email=${email}&password=${password}`;
 

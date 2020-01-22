@@ -96,11 +96,12 @@ const useAuthStrategyTokenFinster = props => {
    */
   const [message, setMessage] = useState("");
 
+  /**
+   * Manages the API calls
+   *
+   * - Anytime the `api` value is changing a new API call is made
+   */
   const [api, setApi] = useState(defaultApi);
-
-  useEffect(() => {
-    console.log("a:", api);
-  }, [api]);
 
   /**
    * Performs an API call
@@ -108,7 +109,6 @@ const useAuthStrategyTokenFinster = props => {
   const { data } = useData(api);
 
   useEffect(() => {
-    console.log("d:", data);
     if (data && data.status) {
       setIsAuthenticated(data.status !== "error");
       setMessage(data.user_message);
@@ -121,7 +121,6 @@ const useAuthStrategyTokenFinster = props => {
    * Defines the login function
    */
   login = props => {
-    console.log("login");
     setApi({ ...api, key: props });
   };
 
@@ -129,7 +128,6 @@ const useAuthStrategyTokenFinster = props => {
    * Defines the logout function
    */
   logout = () => {
-    //setApiKey("");
     setIsAuthenticated(false);
     setMessage("Logout done");
   };
