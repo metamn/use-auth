@@ -68,6 +68,8 @@ const useData = props => {
   const { key, fetcher, options } = props;
   const { initialData } = options;
 
+  console.log("uD");
+
   /**
    * Queries the API
    */

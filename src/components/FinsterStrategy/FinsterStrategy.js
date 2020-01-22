@@ -8,8 +8,6 @@ import { useAuth } from "./../../hooks";
 const FinsterStrategy = props => {
   const { isAuthenticated, login, logout, strategy, message } = useAuth();
 
-  console.log("xxxx");
-
   const credentials = {
     email: "p.schinkel+5@vacat.nl",
     password: "test123"

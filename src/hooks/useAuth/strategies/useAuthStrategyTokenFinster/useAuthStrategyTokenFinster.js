@@ -84,8 +84,7 @@ const useAuthStrategyTokenFinster = props => {
   /**
    * Loads default props and retuns them until they'll be overwritten
    */
-  let { user, strategy, login, logout, api } = defaultProps;
-  const { key } = api;
+  let { user, strategy, login, logout, api: defaultApi } = defaultProps;
 
   /**
    * Manages auth state
@@ -97,14 +96,11 @@ const useAuthStrategyTokenFinster = props => {
    */
   const [message, setMessage] = useState("");
 
-  /**
-   * Manages the api calls
-   */
-  const [apiKey, setApiKey] = useState(key);
+  const [api, setApi] = useState(defaultApi);
 
   useEffect(() => {
-    api = { ...api, key: apiKey };
-  }, [apiKey]);
+    console.log("a:", api);
+  }, [api]);
 
   /**
    * Performs an API call
@@ -112,21 +108,28 @@ const useAuthStrategyTokenFinster = props => {
   const { data } = useData(api);
 
   useEffect(() => {
-    setIsAuthenticated(data.status !== "error");
-    setMessage(data.user_message);
-  }, [data, apiKey]);
+    console.log("d:", data);
+    if (data && data.status) {
+      setIsAuthenticated(data.status !== "error");
+      setMessage(data.user_message);
+    } else {
+      setMessage(data);
+    }
+  }, [data, api]);
 
   /**
    * Defines the login function
    */
   login = props => {
-    setApiKey(props);
+    console.log("login");
+    setApi({ ...api, key: props });
   };
 
   /**
    * Defines the logout function
    */
   logout = () => {
+    //setApiKey("");
     setIsAuthenticated(false);
     setMessage("Logout done");
   };
