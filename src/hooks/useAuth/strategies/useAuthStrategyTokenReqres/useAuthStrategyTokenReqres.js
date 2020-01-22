@@ -99,12 +99,17 @@ const useAuthStrategyTokenReqres = props => {
    */
   const [api, setApi] = useState(defaultApi);
 
+  useEffect(() => {
+    console.log("a:", api);
+  }, [api]);
+
   /**
    * Performs an API call
    */
   const { data } = useData(api);
 
   useEffect(() => {
+    console.log("d:", data);
     if (data && data.status) {
       setIsAuthenticated(data.status !== "error");
       setMessage(data.user_message);
