@@ -3,10 +3,13 @@
  *
  * @see useAuthStrategyTokenFinster.md for details
  */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import useData from "../../../useData";
+import useData, {
+  useDataPropTypes,
+  useDataDefaultProps
+} from "../../../useData";
 
 /**
  * Defines the prop types
@@ -38,7 +41,11 @@ const propTypes = {
   /**
    * The message in case of an error
    */
-  message: PropTypes.string
+  message: PropTypes.string,
+  /**
+   * Defines how to connect to the API
+   */
+  api: PropTypes.shape(useDataPropTypes)
 };
 
 /**
@@ -60,14 +67,24 @@ const defaultProps = {
     return console.log("Finster auth logout");
   },
   strategy: "finster",
-  message: ""
+  message: "",
+  api: {
+    key: "http://api.finsterdata.com/v1/login",
+    fetcher: url => fetch(url).then(r => r.json()),
+    options: {
+      initialData: "Loading..."
+    }
+  }
 };
 
 /**
  * Displays the component
  */
 const useAuthStrategyTokenFinster = props => {
-  let { user, strategy, login, logout } = defaultProps;
+  /**
+   * Loads default props and retuns them while they'll be overwritten
+   */
+  let { user, strategy, login, logout, api } = defaultProps;
 
   /**
    * Manages auth state
@@ -82,7 +99,12 @@ const useAuthStrategyTokenFinster = props => {
   /**
    * Checks if the user is logged in
    */
-  const isLoggedIn = () => {};
+  const { data: isLoggedIn } = useData(api);
+
+  useEffect(() => {
+    setIsAuthenticated(isLoggedIn.status !== "error");
+    setMessage(isLoggedIn.user_message);
+  }, [isLoggedIn]);
 
   return { isAuthenticated, user, login, logout, strategy, message };
 };
