@@ -65,6 +65,8 @@ const defaultProps = {
  * Displays the component
  */
 const useAuthStrategyTokenFinster = props => {
+  let { user, strategy, login, logout } = defaultProps;
+
   /**
    * Manages auth state
    */
@@ -80,11 +82,7 @@ const useAuthStrategyTokenFinster = props => {
    */
   const isLoggedIn = () => {};
 
-  return (
-    <div className="useAuthStrategyTokenFinster">
-      useAuthStrategyTokenFinster
-    </div>
-  );
+  return { isAuthenticated, user, login, logout, strategy, message };
 };
 
 useAuthStrategyTokenFinster.propTypes = propTypes;
