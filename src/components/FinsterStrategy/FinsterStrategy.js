@@ -11,14 +11,16 @@ const FinsterStrategy = props => {
   console.log("xxxx");
 
   const credentials = {
-    email: "test@test.com",
-    password: "1234"
+    email: "p.schinkel+5@vacat.nl",
+    password: "test123"
   };
+  const { email, password } = credentials;
+  const apiKey = `http://api.finsterdata.com/v1/login?email=${email}&password=${password}`;
 
   const button = isAuthenticated ? (
     <button onClick={() => logout()}>Logout</button>
   ) : (
-    <button onClick={() => login(credentials)}>Login</button>
+    <button onClick={() => login(apiKey)}>Login</button>
   );
 
   return (
