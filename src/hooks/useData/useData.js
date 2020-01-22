@@ -28,7 +28,7 @@ const propTypes = {
    *
    * @see https://github.com/zeit/swr#conditional-fetching
    */
-  key: PropTypes.any,
+  key: PropTypes.oneOfType([PropTypes.string, PropTypes.func, PropTypes.array]),
   /**
    * The fetcher function
    *

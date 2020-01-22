@@ -83,6 +83,23 @@ const useAuthStrategyTokenReqres = props => {
   let { user, strategy, login, logout, api: defaultApi } = defaultProps;
 
   /**
+   * Sets up the api call
+   */
+  const { key, fetcher, options } = defaultApi;
+  const specialApi = {
+    key: [key, user],
+    fetcher: (url, user) =>
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+      }).then(r => r.json()),
+    options: options
+  };
+
+  /**
    * Manages auth state
    */
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -97,7 +114,7 @@ const useAuthStrategyTokenReqres = props => {
    *
    * - Anytime the `api` value is changing a new API call is made
    */
-  const [api, setApi] = useState(defaultApi);
+  const [api, setApi] = useState(specialApi);
 
   useEffect(() => {
     console.log("a:", api);
