@@ -1,1 +1,1 @@
-export { default } from "./useAuthStrategyTokenFinster";
+export { useAuthStrategyTokenFinster } from "./useAuthStrategyTokenFinster";

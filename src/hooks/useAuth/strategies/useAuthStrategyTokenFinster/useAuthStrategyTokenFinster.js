@@ -3,7 +3,7 @@
  *
  * @see useAuthStrategyTokenFinster.md for details
  */
-import { useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 /**
@@ -89,4 +89,4 @@ const useAuthStrategyTokenFinster = props => {
 
 useAuthStrategyTokenFinster.propTypes = propTypes;
 
-export default useAuthStrategyTokenFinster;
+export { useAuthStrategyTokenFinster };
