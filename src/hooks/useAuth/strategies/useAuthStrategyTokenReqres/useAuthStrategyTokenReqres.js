@@ -177,9 +177,7 @@ const useAuthStrategyTokenReqres = props => {
    * Defines the logout function
    */
   logout = () => {
-    setIsAuthenticated(false);
-    setMessage("Logout done");
-    setToken(null);
+    setApiCall(api);
   };
 
   return { isAuthenticated, user, login, logout, strategy, message, token };
