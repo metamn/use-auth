@@ -7,94 +7,62 @@ import React from "react";
 import PropTypes from "prop-types";
 
 /**
- * Builds upon SWR.
+ * Imports a strategy / library.
  *
- * - Currently SWR is the most powerful data fetching library
-
- * - This library can be replaced anytime with similar packages which provide the same logic:
- *   - Returns default data while real data is loading
- *   - Returns the error object and the various other functions (re-fethcing, etc.)
- *
- * @see https://swr.now.sh/
+ * - This can be replaced anytime
  */
-import useSWR from "swr";
+import useDataAsync, {
+  useDataAsyncPropTypes,
+  useDataAsyncDefaultProps,
+  useDataAsyncGetHookProps,
+  useDataAsyncGetInitialValue
+} from "./strategies/useDataAsync";
 
 /**
  * Defines the prop types
  */
-const propTypes = {
-  /**
-   * Where to fetch from, and what to fetch
-   *
-   * @see https://github.com/zeit/swr#conditional-fetching
-   */
-  key: PropTypes.oneOfType([PropTypes.string, PropTypes.func, PropTypes.array]),
-  /**
-   * The fetcher function
-   *
-   * @see https://github.com/zeit/swr#data-fetching
-   */
-  fetcher: PropTypes.func,
-  /**
-   * The options
-   *
-   * @see https://github.com/zeit/swr#options
-   */
-  options: PropTypes.object
-};
+const propTypes = PropTypes.shape(useDataAsyncPropTypes);
 
 /**
  * Defines the default props
  */
-const defaultProps = {
-  key: "",
-  fetcher: () => {
-    console.log("Fetcher function");
-  },
-  options: {
-    initialData: "Loading..."
-  }
-};
+const defaultProps = useDataAsyncDefaultProps;
 
 /**
  * Implements the hook
  */
 const useData = props => {
   /**
-   * Prepares params for useSWR
+   * Prepares the props
    *
-   * - Note: `useSWR(props)` simply won't work ....
+   * - This step has to be performed to map a strategy to the hook code below
    */
-  const { key, fetcher, options } = props;
-  const { initialData } = options;
+  const initialValue = useDataAsyncGetInitialValue(props);
+  const hookProps = useDataAsyncGetHookProps(props);
 
   /**
    * Queries the API
    */
-  const { data, error, isValidating, revalidate } = useSWR(
-    key,
-    fetcher,
-    options
-  );
+  const { data, error, reload, cancel } = useDataAsync(hookProps);
 
   /**
    * Returns default data while real data is loaded from the API
    */
   if (data === undefined) {
-    return { data: initialData, isValidating, revalidate };
+    return { data: initialValue, error, reload, cancel };
   }
 
   /**
    * Returns the error
    */
   if (error) {
-    return { data: null, isValidating, revalidate };
+    return { data: null, error, reload, cancel };
   }
 
   /**
    * Returns data and functions
    */
-  return { data, isValidating, revalidate };
+  return { data: data, reload, cancel };
 };
 
 useData.propTypes = propTypes;
