@@ -69,4 +69,9 @@ useData.propTypes = propTypes;
 useData.defaultProps = defaultProps;
 
 export default useData;
-export { propTypes as useDataPropTypes, defaultProps as useDataDefaultProps };
+export {
+  propTypes as useDataPropTypes,
+  defaultProps as useDataDefaultProps,
+  useDataAsyncGetHookProps as useDataGetHookProps,
+  useDataAsyncGetInitialValue as useDataGetInitialValue
+};

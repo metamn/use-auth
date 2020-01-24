@@ -8,7 +8,9 @@ import PropTypes from "prop-types";
 
 import useData, {
   useDataPropTypes,
-  useDataDefaultProps
+  useDataDefaultProps,
+  useDataGetHookProps,
+  useDataGetInitialValue
 } from "../../../useData";
 
 /**
@@ -66,13 +68,42 @@ const defaultProps = {
   strategy: "reqres",
   message: "",
   api: {
-    key: "https://reqres.in/api/login",
-    fetcher: url => fetch(url).then(r => r.json()),
     options: {
-      initialData: "Loading..."
+      /**
+       * The fetcher function
+       */
+      promiseFn: () => console.log("Fetcher function for useDataAsync"),
+      /**
+       * Params for the fetcher function, if any
+       */
+      promiseFnParams: {},
+      /**
+       * The default / initial data to be returned
+       */
+      initialValue: "Loading ...."
     }
   }
 };
+
+/**
+ * Reqres.in specific fetcher
+ *
+ */
+const fetcherLogin = async ({ user }) => {
+  const data = user;
+
+  const response = await fetch("https://reqres.in/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+  return response.json();
+};
+
 /**
  * Displays the component
  */
@@ -80,24 +111,7 @@ const useAuthStrategyTokenReqres = props => {
   /**
    * Loads default props and retuns them until they'll be overwritten
    */
-  let { user, strategy, login, logout, api: defaultApi } = defaultProps;
-
-  /**
-   * Sets up the api call
-   */
-  const { key, fetcher, options } = defaultApi;
-  const specialApi = {
-    key: [key, user],
-    fetcher: (url, user) =>
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(user)
-      }).then(r => r.json()),
-    options: options
-  };
+  let { user, strategy, login, logout, api } = defaultProps;
 
   /**
    * Manages auth state
@@ -110,36 +124,47 @@ const useAuthStrategyTokenReqres = props => {
   const [message, setMessage] = useState("");
 
   /**
-   * Manages the API calls
-   *
-   * - Anytime the `api` value is changing a new API call is made
+   * Manages the token
    */
-  const [api, setApi] = useState(specialApi);
+  const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    console.log("a:", api);
-  }, [api]);
+  /**
+   * Sets up the api call
+   */
+  api = {
+    options: {
+      promiseFn: fetcherLogin,
+      promiseFnParams: { user: user },
+      initialValue: "Loading...."
+    }
+  };
+
+  const hookProps = useDataGetHookProps(api);
 
   /**
    * Performs an API call
    */
-  const { data } = useData(api);
+  const { data, error } = useData(hookProps);
 
   useEffect(() => {
     console.log("d:", data);
-    if (data && data.status) {
-      setIsAuthenticated(data.status !== "error");
-      setMessage(data.user_message);
+    if (data && data.token) {
+      const { token } = data;
+      setIsAuthenticated(true);
+      setMessage("Authenticated");
+      setToken(token);
     } else {
-      setMessage(data);
+      setIsAuthenticated(false);
+      setMessage("Authentication error: ", data);
+      setToken(null);
     }
-  }, [data, api]);
+  }, [data]);
 
   /**
    * Defines the login function
    */
   login = props => {
-    setApi({ ...api, key: props });
+    //
   };
 
   /**
@@ -148,9 +173,10 @@ const useAuthStrategyTokenReqres = props => {
   logout = () => {
     setIsAuthenticated(false);
     setMessage("Logout done");
+    setToken(null);
   };
 
-  return { isAuthenticated, user, login, logout, strategy, message };
+  return { isAuthenticated, user, login, logout, strategy, message, token };
 };
 
 useAuthStrategyTokenReqres.propTypes = propTypes;
