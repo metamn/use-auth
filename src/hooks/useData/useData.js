@@ -72,6 +72,6 @@ export default useData;
 export {
   propTypes as useDataPropTypes,
   defaultProps as useDataDefaultProps,
-  useDataAsyncGetHookProps as useDataGetHookProps,
-  useDataAsyncGetInitialValue as useDataGetInitialValue
+  useDataAsyncGetHookProps as getUseDataHookProps,
+  useDataAsyncGetInitialValue as getUseDataInitialValue
 };

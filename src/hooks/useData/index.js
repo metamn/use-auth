@@ -2,6 +2,6 @@ export {
   default,
   useDataPropTypes,
   useDataDefaultProps,
-  useDataGetHookProps,
-  useDataGetInitialValue
+  getUseDataHookProps,
+  getUseDataInitialValue
 } from "./useData";

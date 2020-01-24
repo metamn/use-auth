@@ -9,8 +9,8 @@ import PropTypes from "prop-types";
 import useData, {
   useDataPropTypes,
   useDataDefaultProps,
-  useDataGetHookProps,
-  useDataGetInitialValue
+  getUseDataHookProps,
+  getUseDataInitialValue
 } from "../../../useData";
 
 /**
@@ -129,25 +129,25 @@ const useAuthStrategyTokenReqres = props => {
   const [token, setToken] = useState(null);
 
   /**
-   * Sets up the api call
+   * Manages the API call
    */
-  api = {
-    options: {
-      promiseFn: fetcherLogin,
-      promiseFnParams: { user: user },
-      initialValue: "Loading...."
-    }
-  };
+  const [apiCall, setApiCall] = useState(api);
 
-  const hookProps = useDataGetHookProps(api);
+  /**
+   * Sets up the API call
+   */
+  let apiCallProps = getUseDataHookProps(apiCall);
+
+  useEffect(() => {
+    apiCallProps = getUseDataHookProps(apiCall);
+  }, [apiCall]);
 
   /**
    * Performs an API call
    */
-  const { data, error } = useData(hookProps);
+  const { data, error } = useData(apiCallProps);
 
   useEffect(() => {
-    console.log("d:", data);
     if (data && data.token) {
       const { token } = data;
       setIsAuthenticated(true);
@@ -155,16 +155,22 @@ const useAuthStrategyTokenReqres = props => {
       setToken(token);
     } else {
       setIsAuthenticated(false);
-      setMessage("Authentication error: ", data);
       setToken(null);
+      setMessage("Authentication error", error ? ` : ${error.message}` : "");
     }
   }, [data]);
 
   /**
    * Defines the login function
    */
-  login = props => {
-    //
+  login = user => {
+    setApiCall({
+      options: {
+        promiseFn: fetcherLogin,
+        promiseFnParams: { user: user },
+        initialValue: "Logging in ..."
+      }
+    });
   };
 
   /**
