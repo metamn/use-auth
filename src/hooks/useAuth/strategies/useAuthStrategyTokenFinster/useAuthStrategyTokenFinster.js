@@ -89,21 +89,17 @@ const defaultProps = {
 };
 
 /**
- * FInster specific fetcher
+ * Finster specific fetcher
  *
  */
 const fetcherLogin = async ({ user }) => {
-  const data = user;
+  const { email, password } = user;
 
-  const response = await fetch("http://api.finsterdata.com/v1/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  });
+  const response = await fetch(
+    `http://api.finsterdata.com/v1/login?email=${email}&password=${password}`
+  );
 
-  if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+  if (response?.status === "error") throw new Error(`Error: ${response}`);
   return response.json();
 };
 
@@ -137,7 +133,6 @@ const useAuthStrategyTokenFinster = props => {
   let apiCallProps = getUseDataHookProps(apiCall);
 
   useEffect(() => {
-    console.log("apiCallProps:", apiCallProps);
     apiCallProps = getUseDataHookProps(apiCall);
   }, [apiCall]);
 
