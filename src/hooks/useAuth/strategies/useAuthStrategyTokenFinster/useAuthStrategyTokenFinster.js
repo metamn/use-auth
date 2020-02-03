@@ -5,6 +5,7 @@
  */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { queryString } from "query-string";
 
 import useData, {
   useDataPropTypes,
@@ -93,13 +94,16 @@ const defaultProps = {
  *
  */
 const fetcherLogin = async ({ user }) => {
-  const { email, password } = user;
+  const parsedUser = queryString.stringify(user);
+
+  console.log("ps:", parsedUser);
 
   const response = await fetch(
-    `http://api.finsterdata.com/v1/login?email=${email}&password=${password}`
+    `http://api.finsterdata.com/v1/login?${parsedUser}`
   );
 
-  if (response?.status === "error") throw new Error(`Error: ${response}`);
+  if (response && response.status === "error")
+    throw new Error(`Error: ${response}`);
   return response.json();
 };
 
@@ -134,6 +138,7 @@ const useAuthStrategyTokenFinster = props => {
 
   useEffect(() => {
     apiCallProps = getUseDataHookProps(apiCall);
+    console.log("apiCallProps:", apiCallProps);
   }, [apiCall]);
 
   /**
@@ -142,6 +147,7 @@ const useAuthStrategyTokenFinster = props => {
   const { data, error } = useData(apiCallProps);
 
   useEffect(() => {
+    console.log("d:", data);
     if (data && data.status) {
       setIsAuthenticated(data.status !== "error");
       setMessage(data.user_message);
@@ -154,6 +160,7 @@ const useAuthStrategyTokenFinster = props => {
    * Defines the login function
    */
   login = user => {
+    console.log("l");
     setApiCall({
       options: {
         promiseFn: fetcherLogin,

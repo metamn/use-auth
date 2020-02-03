@@ -2,12 +2,14 @@
 
 A simple auth hook extendable with various strategies.
 
-## The simple hook
+## How it works
 
-Offers:
+- `useAuth.js` returns always these results:
 
-- `<AuthProvider>` - A top level auth provider
-- `useAuth` - A hook to be called by components
+  - `<AuthProvider>` - A top level auth provider
+  - `useAuth` - A hook to be called by components
+
+- in `useAuth.js` one has to choose (import) a strategy for authentication. This strategy is usually API (or project) specific.
 
 ## Usage
 
