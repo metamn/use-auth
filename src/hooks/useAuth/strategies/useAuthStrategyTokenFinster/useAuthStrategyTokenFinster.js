@@ -71,12 +71,40 @@ const defaultProps = {
   strategy: "finster",
   message: "",
   api: {
-    key: "http://api.finsterdata.com/v1/login",
-    fetcher: url => fetch(url).then(r => r.json()),
     options: {
-      initialValue: "Loading..."
+      /**
+       * The fetcher function
+       */
+      promiseFn: () => console.log("Fetcher function for useDataAsync"),
+      /**
+       * Params for the fetcher function, if any
+       */
+      promiseFnParams: {},
+      /**
+       * The default / initial data to be returned
+       */
+      initialValue: "Loading ...."
     }
   }
+};
+
+/**
+ * FInster specific fetcher
+ *
+ */
+const fetcherLogin = async ({ user }) => {
+  const data = user;
+
+  const response = await fetch("http://api.finsterdata.com/v1/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+  return response.json();
 };
 
 /**
@@ -130,8 +158,14 @@ const useAuthStrategyTokenFinster = props => {
   /**
    * Defines the login function
    */
-  login = apiKey => {
-    setApiCall({ options: { ...api, key: apiKey } });
+  login = user => {
+    setApiCall({
+      options: {
+        promiseFn: fetcherLogin,
+        promiseFnParams: { user: user },
+        initialValue: "Logging in ..."
+      }
+    });
   };
 
   /**
