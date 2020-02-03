@@ -8,7 +8,9 @@ import PropTypes from "prop-types";
 
 import useData, {
   useDataPropTypes,
-  useDataDefaultProps
+  useDataDefaultProps,
+  getUseDataHookProps,
+  getUseDataInitialValue
 } from "../../../useData";
 
 /**
@@ -72,7 +74,7 @@ const defaultProps = {
     key: "http://api.finsterdata.com/v1/login",
     fetcher: url => fetch(url).then(r => r.json()),
     options: {
-      initialData: "Loading..."
+      initialValue: "Loading..."
     }
   }
 };
@@ -84,7 +86,7 @@ const useAuthStrategyTokenFinster = props => {
   /**
    * Loads default props and retuns them until they'll be overwritten
    */
-  let { user, strategy, login, logout, api: defaultApi } = defaultProps;
+  let { user, strategy, login, logout, api } = defaultProps;
 
   /**
    * Manages auth state
@@ -97,16 +99,24 @@ const useAuthStrategyTokenFinster = props => {
   const [message, setMessage] = useState("");
 
   /**
-   * Manages the API calls
-   *
-   * - Anytime the `api` value is changing a new API call is made
+   * Manages the API call
    */
-  const [api, setApi] = useState(defaultApi);
+  const [apiCall, setApiCall] = useState(api);
+
+  /**
+   * Sets up the API call
+   */
+  let apiCallProps = getUseDataHookProps(apiCall);
+
+  useEffect(() => {
+    console.log("apiCallProps:", apiCallProps);
+    apiCallProps = getUseDataHookProps(apiCall);
+  }, [apiCall]);
 
   /**
    * Performs an API call
    */
-  const { data } = useData(api);
+  const { data, error } = useData(apiCallProps);
 
   useEffect(() => {
     if (data && data.status) {
@@ -115,21 +125,20 @@ const useAuthStrategyTokenFinster = props => {
     } else {
       setMessage(data);
     }
-  }, [data, api]);
+  }, [data]);
 
   /**
    * Defines the login function
    */
-  login = props => {
-    setApi({ ...api, key: props });
+  login = apiKey => {
+    setApiCall({ options: { ...api, key: apiKey } });
   };
 
   /**
    * Defines the logout function
    */
   logout = () => {
-    setIsAuthenticated(false);
-    setMessage("Logout done");
+    setApiCall(api);
   };
 
   return { isAuthenticated, user, login, logout, strategy, message };
