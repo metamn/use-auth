@@ -94,11 +94,10 @@ const defaultProps = {
  *
  */
 const fetcherLogin = async ({ user }) => {
-  console.log("fl");
-  const encodeUser = queryString.stringify(user);
+  const encodedUser = queryString.stringify(user);
 
   const response = await fetch(
-    `http://api.finsterdata.com/v1/login?${encodeUser}`
+    `http://api.finsterdata.com/v1/login?${encodedUser}`
   );
 
   if (response && response.status === "error")
@@ -135,10 +134,7 @@ const useAuthStrategyTokenFinster = props => {
    */
   const { data, error } = useData(apiCall);
 
-  console.log("apiCall:", apiCall);
-
   useEffect(() => {
-    console.log("d:", data);
     if (data && data.status) {
       setIsAuthenticated(data.status !== "error");
       setMessage(data.user_message);
@@ -146,13 +142,12 @@ const useAuthStrategyTokenFinster = props => {
       setIsAuthenticated(false);
       setMessage(props);
     }
-  }, [data]);
+  }, [data, props]);
 
   /**
    * Defines the login function
    */
   login = user => {
-    console.log("l");
     setApiCall(
       getUseDataHookProps({
         options: {
