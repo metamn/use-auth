@@ -161,8 +161,7 @@ const useAuthStrategyTokenFinster = props => {
       setIsAuthenticatedLocalStorage(authenticated);
       setMessage(message);
     } else {
-      setIsAuthenticated(false);
-      setIsAuthenticatedLocalStorage(false);
+      setIsAuthenticated(isAuthenticatedLocalStorage);
       setMessage(props);
     }
   }, [data, props]);
