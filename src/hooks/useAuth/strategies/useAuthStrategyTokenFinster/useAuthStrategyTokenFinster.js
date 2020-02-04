@@ -5,7 +5,7 @@
  */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { queryString } from "query-string";
+import queryString from "query-string";
 
 import useData, {
   useDataPropTypes,
@@ -94,12 +94,11 @@ const defaultProps = {
  *
  */
 const fetcherLogin = async ({ user }) => {
-  const parsedUser = queryString.stringify(user);
-
-  console.log("ps:", parsedUser);
+  console.log("fl");
+  const encodeUser = queryString.stringify(user);
 
   const response = await fetch(
-    `http://api.finsterdata.com/v1/login?${parsedUser}`
+    `http://api.finsterdata.com/v1/login?${encodeUser}`
   );
 
   if (response && response.status === "error")
@@ -127,24 +126,16 @@ const useAuthStrategyTokenFinster = props => {
   const [message, setMessage] = useState("");
 
   /**
-   * Manages the API call
+   * Manages the API calls (login, register, etc.)
    */
-  const [apiCall, setApiCall] = useState(api);
-
-  /**
-   * Sets up the API call
-   */
-  let apiCallProps = getUseDataHookProps(apiCall);
-
-  useEffect(() => {
-    apiCallProps = getUseDataHookProps(apiCall);
-    console.log("apiCallProps:", apiCallProps);
-  }, [apiCall]);
+  const [apiCall, setApiCall] = useState(getUseDataHookProps(api));
 
   /**
    * Performs an API call
    */
-  const { data, error } = useData(apiCallProps);
+  const { data, error } = useData(apiCall);
+
+  console.log("apiCall:", apiCall);
 
   useEffect(() => {
     console.log("d:", data);
@@ -161,20 +152,22 @@ const useAuthStrategyTokenFinster = props => {
    */
   login = user => {
     console.log("l");
-    setApiCall({
-      options: {
-        promiseFn: fetcherLogin,
-        promiseFnParams: { user: user },
-        initialValue: "Logging in ..."
-      }
-    });
+    setApiCall(
+      getUseDataHookProps({
+        options: {
+          promiseFn: fetcherLogin,
+          promiseFnParams: { user: user },
+          initialValue: "Logging in ..."
+        }
+      })
+    );
   };
 
   /**
    * Defines the logout function
    */
   logout = () => {
-    setApiCall(api);
+    setApiCall(getUseDataHookProps(api));
   };
 
   return { isAuthenticated, user, login, logout, strategy, message };
