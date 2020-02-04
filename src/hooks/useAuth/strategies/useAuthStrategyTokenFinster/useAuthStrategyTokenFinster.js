@@ -143,7 +143,8 @@ const useAuthStrategyTokenFinster = props => {
       setIsAuthenticated(data.status !== "error");
       setMessage(data.user_message);
     } else {
-      setMessage(data);
+      setIsAuthenticated(false);
+      setMessage(props);
     }
   }, [data]);
 
