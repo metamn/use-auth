@@ -41,10 +41,7 @@ const FinsterStrategy = props => {
       <ul>
         <li key="strategy">Strategy: {strategy}</li>
         <li key="isAuthenticated">
-          isAuthenticated: {JSON.stringify(isAuthenticated)}
-        </li>
-        <li key="credentials">
-          Credentials: {JSON.stringify(credentials, null, 2)}
+          <strong>isAuthenticated: {JSON.stringify(isAuthenticated)}</strong>
         </li>
         <li key="message">Message: {message}</li>
         <li key="button">{buttons}</li>

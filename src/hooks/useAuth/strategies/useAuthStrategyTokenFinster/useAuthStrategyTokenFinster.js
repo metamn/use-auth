@@ -233,6 +233,7 @@ const useAuthStrategyTokenFinster = props => {
    */
   logout = () => {
     setIsAuthenticatedLocalStorage(false);
+    setApiCall(getUseDataHookProps(api));
   };
 
   /**
