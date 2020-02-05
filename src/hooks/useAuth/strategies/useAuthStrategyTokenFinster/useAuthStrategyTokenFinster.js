@@ -54,7 +54,12 @@ const propTypes = {
   /**
    * Defines the key for storing auth status in local storage
    */
-  localStorageKey: PropTypes.string
+  localStorageKey: PropTypes.string,
+  register: PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string
+  })
 };
 
 /**
@@ -75,6 +80,9 @@ const defaultProps = {
   logout: () => {
     return console.log("Finster auth logout");
   },
+  register: () => {
+    return console.log("Finster auth register");
+  },
   strategy: "finster",
   message: "",
   api: {
@@ -93,11 +101,16 @@ const defaultProps = {
       initialValue: "Loading ...."
     }
   },
-  localStorageKey: "localStorageKey"
+  localStorageKey: "localStorageKey",
+  newUser: {
+    name: "test1",
+    email: "test1@test.com",
+    password: "test12345"
+  }
 };
 
 /**
- * Finster specific fetcher
+ * Finster specific fetcher for login
  *
  */
 const fetcherLogin = async ({ user }) => {
@@ -113,13 +126,38 @@ const fetcherLogin = async ({ user }) => {
 };
 
 /**
+ * Finster specific fetcher for register
+ *
+ */
+const fetcherRegister = async ({ newUser }) => {
+  const encoded = queryString.stringify(newUser);
+
+  const response = await fetch(
+    `http://api.finsterdata.com/v1/register?${encoded}`
+  );
+
+  if (response && response.status === "error")
+    throw new Error(`Error: ${response}`);
+  return response.json();
+};
+
+/**
  * Displays the component
  */
 const useAuthStrategyTokenFinster = props => {
   /**
    * Loads default props and retuns them until they'll be overwritten
    */
-  let { user, strategy, login, logout, api, localStorageKey } = defaultProps;
+  let {
+    user,
+    strategy,
+    login,
+    logout,
+    api,
+    localStorageKey,
+    register,
+    newUser
+  } = defaultProps;
 
   /**
    * Checks local storage if the user is authenticated already
@@ -188,7 +226,22 @@ const useAuthStrategyTokenFinster = props => {
     setApiCall(getUseDataHookProps(api));
   };
 
-  return { isAuthenticated, user, login, logout, strategy, message };
+  /**
+   * Defines the register function
+   */
+  register = newUser => {
+    setApiCall(
+      getUseDataHookProps({
+        options: {
+          promiseFn: fetcherRegister,
+          promiseFnParams: { bewUser: newUser },
+          initialValue: "Registering ..."
+        }
+      })
+    );
+  };
+
+  return { isAuthenticated, user, login, logout, register, strategy, message };
 };
 
 useAuthStrategyTokenFinster.propTypes = propTypes;

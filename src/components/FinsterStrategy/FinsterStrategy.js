@@ -7,16 +7,32 @@ const credentials = {
   password: "test123"
 };
 
+const registration = {
+  email: "test1@test.com",
+  name: "test1",
+  password: "test12345"
+};
+
 /**
  * Displays the component
  */
 const FinsterStrategy = props => {
-  const { isAuthenticated, login, logout, strategy, message } = useAuth();
+  const {
+    isAuthenticated,
+    login,
+    logout,
+    register,
+    strategy,
+    message
+  } = useAuth();
 
-  const button = isAuthenticated ? (
+  const buttons = isAuthenticated ? (
     <button onClick={() => logout()}>Logout</button>
   ) : (
-    <button onClick={() => login(credentials)}>Login</button>
+    <>
+      <button onClick={() => login(credentials)}>Login</button>
+      <button onClick={() => register(registration)}>Register</button>
+    </>
   );
 
   return (
@@ -30,7 +46,7 @@ const FinsterStrategy = props => {
           Credentials: {JSON.stringify(credentials, null, 2)}
         </li>
         <li key="message">Message: {message}</li>
-        <li key="button">{button}</li>
+        <li key="button">{buttons}</li>
       </ul>
     </div>
   );
