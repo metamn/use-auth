@@ -7,7 +7,6 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import queryString from "query-string";
 import useLocalStorage from "../../../useLocalStorage";
-import { fromJS } from "immutable";
 
 import useData, {
   useDataPropTypes,
@@ -287,13 +286,7 @@ const useAuthStrategyTokenFinster = props => {
    * Defines the logout function
    */
   logout = () => {
-    const oldApi = fromJS(api);
-    const apiForLogout = oldApi
-      .updateIn(["options", "initialValue", "message"], message => "Logged out")
-      .toJS();
-
     setIsAuthenticatedLocalStorage(false);
-    //setApiCall(getUseDataHookProps(apiForLogout));
     setApiCall(
       getUseDataHookProps({
         options: {
