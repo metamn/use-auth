@@ -6,6 +6,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import queryString from "query-string";
+import useLocalStorage from "../../../useLocalStorage";
+import { fromJS } from "immutable";
 
 import useData, {
   useDataPropTypes,
@@ -13,8 +15,6 @@ import useData, {
   getUseDataHookProps,
   getUseDataInitialValue
 } from "../../../useData";
-
-import useLocalStorage from "../../../useLocalStorage";
 
 /**
  * Defines the prop types
@@ -98,7 +98,7 @@ const defaultProps = {
       /**
        * The fetcher function
        */
-      promiseFn: () => console.log("Fetcher function for useDataAsync"),
+      promiseFn: () => console.log("Default fetcher function"),
       /**
        * Params for the fetcher function, if any
        */
@@ -151,6 +151,14 @@ const fetcherRegister = async ({ newUser }) => {
   if (response && response.status === "error")
     throw new Error(`Error: ${response}`);
   return response.json();
+};
+
+/**
+ * Finster specific fetcher for logout
+ *
+ */
+const fetcherLogout = async ({ message }) => {
+  return { status: "logout", message: message };
 };
 
 /**
@@ -252,7 +260,7 @@ const useAuthStrategyTokenFinster = props => {
         options: {
           promiseFn: fetcherRegister,
           promiseFnParams: { newUser: newUser },
-          initialValue: "Registering ..."
+          initialValue: { message: "Registering ..." }
         }
       })
     );
@@ -267,7 +275,7 @@ const useAuthStrategyTokenFinster = props => {
         options: {
           promiseFn: fetcherLogin,
           promiseFnParams: { user: user },
-          initialValue: "Logging in ..."
+          initialValue: { message: "Logging in ..." }
         }
       })
     );
@@ -277,11 +285,19 @@ const useAuthStrategyTokenFinster = props => {
    * Defines the logout function
    */
   logout = () => {
+    const oldApi = fromJS(api);
+    const apiForLogout = oldApi
+      .updateIn(["options", "initialValue", "message"], message => "Logged out")
+      .toJS();
+
     setIsAuthenticatedLocalStorage(false);
+    //setApiCall(getUseDataHookProps(apiForLogout));
     setApiCall(
       getUseDataHookProps({
-        ...api,
-        options: { initialValue: { message: "Logged out" } }
+        options: {
+          promiseFn: fetcherLogout,
+          promiseFnParams: { message: "Logged out" }
+        }
       })
     );
   };
