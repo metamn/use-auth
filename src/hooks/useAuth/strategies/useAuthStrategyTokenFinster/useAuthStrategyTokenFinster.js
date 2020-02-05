@@ -66,7 +66,7 @@ const propTypes = {
     name: PropTypes.string,
     email: PropTypes.string,
     password: PropTypes.string,
-    recaptcha_response: PropTypes.string
+    recaptcha_ignore: PropTypes.string
   })
 };
 
@@ -114,7 +114,7 @@ const defaultProps = {
     name: "test1",
     email: "test1@test.com",
     password: "test12345",
-    recaptcha_response: "has-to-be-set-via-a-form"
+    recaptcha_ignore: "293kwlxh"
   }
 };
 
