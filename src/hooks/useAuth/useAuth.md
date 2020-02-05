@@ -9,11 +9,11 @@ A simple auth hook extendable with various strategies.
   - `<AuthProvider>` - A top level auth provider
   - `useAuth` - A hook to be called by components
 
-- in `useAuth.js` one has to choose (import) a strategy for authentication. This strategy is usually API (or project) specific.
+- in `useAuth.js` one has to choose a strategy for authentication. This strategy is usually API (or project) specific.
 
 ## Usage
 
-1. Select (import) a strategy specific to the project in `useAuth.js`
+1. Select a strategy specific to the project in `useAuth.js`
 2. Remove all the other strategies
 3. Make sure `useAuthStrategy` is prepared for the imported strategy:
 
