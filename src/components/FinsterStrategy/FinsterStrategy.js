@@ -8,14 +8,6 @@ const credentials = {
   password: "test123"
 };
 
-const registration = {
-  email: "test1@test.com",
-  name: "test1",
-  password: "test12345",
-  recaptcha_response:
-    "03AOLTBLSOc-SZ22EKdubEEQW9MvQ4Px1uZ8sVm2ZInsx0i45aa7bnsAIznvgdT4GYYk2wbr6cAhn7wFdvph4eVssrgm0-tz-wM2X3xDJN3Py0b--q_gccletF3MM49J9YwToNusuIpn_u5z69DEXpNDnkPfUIFhJzigjFNZQYUCxm0R1wgsGo2NzKAGvM3FAf_YJPv8JQebWMuAP2LvJj81ZN7HkNuuxJPgKewxRt48REFBasqDPosg7AwPTfEF5I1u0NRDBtrfUaJMz5D_f5rlcaO-Rtka1b3_n6y4FY4YC3YLsFuujEaLl0dU7InWk5fzphBEC71kTbQScXXLbAADVhnvIJL-y7DPCSAXJsg6NEEKId7TRjb0mDj3BglOBE43MiALJ9ctNTGw5wdYq7qso6r5bHSJGv3qX6_tY0LsdkuiEYPsnhE20"
-};
-
 /**
  * Displays the component
  */
@@ -29,12 +21,49 @@ const FinsterStrategy = props => {
     message
   } = useAuth();
 
+  const emailRef = React.createRef();
+  const passwordRef = React.createRef();
+  const nameRef = React.createRef();
+  const recaptchaRef = React.createRef();
+
+  const formSubmit = () => {
+    console.log("s");
+    //const email = emailRef.current.value();
+    const recaptchaValue = recaptchaRef.current.getValue();
+    //console.log("e:", email);
+  };
+
   const buttons = isAuthenticated ? (
     <button onClick={() => logout()}>Logout</button>
   ) : (
     <>
       <button onClick={() => login(credentials)}>Login</button>
-      <button onClick={() => register(registration)}>Register</button>
+      <form onSubmit={() => formSubmit()}>
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey="6LeNBckSAAAAAIdiceIunIQR4pkCk0ZnQDf_cojD"
+        />
+        <input
+          type="email"
+          name="email"
+          className="input"
+          placeholder="Email Address"
+          required=""
+          ref={emailRef}
+        />
+        <br />
+        password:
+        <input name="password" type="password" required="" ref={passwordRef} />*
+        <br />
+        name:
+        <input name="name" type="text" ref={nameRef} />
+        <br />
+        <input name="agree" type="checkbox" /> I agree to the Terms and
+        Conditions
+        <br />
+        <input type="submit" />
+        <br />
+      </form>
     </>
   );
 

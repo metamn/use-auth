@@ -59,10 +59,14 @@ const propTypes = {
    * Defines the key for storing auth status in local storage
    */
   localStorageKey: PropTypes.string,
+  /**
+   * The params for a new user registration
+   */
   newUser: PropTypes.shape({
     name: PropTypes.string,
     email: PropTypes.string,
-    password: PropTypes.string
+    password: PropTypes.string,
+    recaptcha_response: PropTypes.string
   })
 };
 
@@ -110,8 +114,7 @@ const defaultProps = {
     name: "test1",
     email: "test1@test.com",
     password: "test12345",
-    recaptcha_response:
-      "03AOLTBLSOc-SZ22EKdubEEQW9MvQ4Px1uZ8sVm2ZInsx0i45aa7bnsAIznvgdT4GYYk2wbr6cAhn7wFdvph4eVssrgm0-tz-wM2X3xDJN3Py0b--q_gccletF3MM49J9YwToNusuIpn_u5z69DEXpNDnkPfUIFhJzigjFNZQYUCxm0R1wgsGo2NzKAGvM3FAf_YJPv8JQebWMuAP2LvJj81ZN7HkNuuxJPgKewxRt48REFBasqDPosg7AwPTfEF5I1u0NRDBtrfUaJMz5D_f5rlcaO-Rtka1b3_n6y4FY4YC3YLsFuujEaLl0dU7InWk5fzphBEC71kTbQScXXLbAADVhnvIJL-y7DPCSAXJsg6NEEKId7TRjb0mDj3BglOBE43MiALJ9ctNTGw5wdYq7qso6r5bHSJGv3qX6_tY0LsdkuiEYPsnhE20"
+    recaptcha_response: "has-to-be-set-via-a-form"
   }
 };
 
