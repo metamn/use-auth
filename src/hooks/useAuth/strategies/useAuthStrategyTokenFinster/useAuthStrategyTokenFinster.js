@@ -223,7 +223,7 @@ const useAuthStrategyTokenFinster = props => {
    * Defines the logout function
    */
   logout = () => {
-    setApiCall(getUseDataHookProps(api));
+    setIsAuthenticatedLocalStorage(false);
   };
 
   /**
@@ -234,7 +234,7 @@ const useAuthStrategyTokenFinster = props => {
       getUseDataHookProps({
         options: {
           promiseFn: fetcherRegister,
-          promiseFnParams: { bewUser: newUser },
+          promiseFnParams: { newUser: newUser },
           initialValue: "Registering ..."
         }
       })
