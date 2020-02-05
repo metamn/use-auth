@@ -14,6 +14,8 @@ import useData, {
   getUseDataInitialValue
 } from "../../../useData";
 
+import useLocalStorage from "../../../useLocalStorage";
+
 /**
  * Defines the prop types
  */
@@ -48,7 +50,11 @@ const propTypes = {
   /**
    * Defines how to connect to the API
    */
-  api: PropTypes.shape(useDataPropTypes)
+  api: PropTypes.shape(useDataPropTypes),
+  /**
+   * Defines the key for storing auth status in local storage
+   */
+  localStorageKey: PropTypes.string
 };
 
 /**
@@ -86,7 +92,8 @@ const defaultProps = {
        */
       initialValue: "Loading ...."
     }
-  }
+  },
+  localStorageKey: "localStorageKey"
 };
 
 /**
@@ -112,12 +119,22 @@ const useAuthStrategyTokenFinster = props => {
   /**
    * Loads default props and retuns them until they'll be overwritten
    */
-  let { user, strategy, login, logout, api } = defaultProps;
+  let { user, strategy, login, logout, api, localStorageKey } = defaultProps;
+
+  /**
+   * Checks local storage if the user is authenticated already
+   */
+  const [
+    isAuthenticatedLocalStorage,
+    setIsAuthenticatedLocalStorage
+  ] = useLocalStorage(localStorageKey, false);
 
   /**
    * Manages auth state
    */
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    isAuthenticatedLocalStorage
+  );
 
   /**
    * Manages the message content
@@ -134,12 +151,17 @@ const useAuthStrategyTokenFinster = props => {
    */
   const { data, error } = useData(apiCall);
 
+  console.log("isAuthenticatedLocalStorage:", isAuthenticatedLocalStorage);
+
   useEffect(() => {
     if (data && data.status) {
-      setIsAuthenticated(data.status !== "error");
-      setMessage(data.user_message);
+      const authenticated = data.status !== "error";
+      const message = data.user_message;
+      setIsAuthenticated(authenticated);
+      setIsAuthenticatedLocalStorage(authenticated);
+      setMessage(message);
     } else {
-      setIsAuthenticated(false);
+      setIsAuthenticated(isAuthenticatedLocalStorage);
       setMessage(props);
     }
   }, [data, props]);
