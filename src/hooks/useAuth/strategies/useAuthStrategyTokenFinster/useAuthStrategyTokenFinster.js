@@ -231,6 +231,7 @@ const useAuthStrategyTokenFinster = props => {
 	 */
 
     if (data && data.status) {
+      // controlled state
       const authenticated = data.status === "ok";
       const message = data.token
         ? `Token: ${data.token}`
@@ -242,6 +243,7 @@ const useAuthStrategyTokenFinster = props => {
       setIsAuthenticatedLocalStorage(authenticated);
       setMessage(message);
     } else {
+      // uncontrolled state
       const message = isAuthenticatedLocalStorage
         ? "Auth done via local storage"
         : "";
