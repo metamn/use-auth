@@ -106,7 +106,10 @@ const defaultProps = {
       /**
        * The default / initial data to be returned
        */
-      initialValue: "Loading ...."
+      initialValue: {
+        status: "initial",
+        message: "Please login or register"
+      }
     }
   },
   localStorageKey: "localStorageKey",
@@ -190,6 +193,8 @@ const useAuthStrategyTokenFinster = props => {
 
   /**
    * Manages the API calls (login, register, etc.)
+   *
+   * - Every API call does nothing than changing this `apiCall` value
    */
   const [apiCall, setApiCall] = useState(getUseDataHookProps(api));
 
@@ -198,20 +203,60 @@ const useAuthStrategyTokenFinster = props => {
    */
   const { data, error } = useData(apiCall);
 
-  console.log("isAuthenticatedLocalStorage:", isAuthenticatedLocalStorage);
-
+  /**
+   * Manages the result of an API call
+   */
   useEffect(() => {
+    console.log("d:", data);
+
+    /**
+     * This is how an ok result looks like:
+     *
+	  "status": "ok",
+	  "query_id": "1261967432",
+	  "request_time": 1580891194,
+	  "credits": "9779403",
+	  "credit_reset_date": "2030-01-01 00:00:00",
+	  "plan_id": null,
+	  "login_ago": "475",
+	  "token": "d11e7916590604d1356a08579aad99dc6bd3cfd1"
+	 */
+
     if (data && data.status) {
-      const authenticated = data.status !== "error";
-      const message = data.user_message;
+      const authenticated = data.status === "ok";
+      const message = data.token
+        ? `Token: ${data.token}`
+        : data.message
+        ? data.message
+        : "????";
+
       setIsAuthenticated(authenticated);
       setIsAuthenticatedLocalStorage(authenticated);
       setMessage(message);
     } else {
+      const message = isAuthenticatedLocalStorage
+        ? "Auth done via local storage"
+        : "";
+
       setIsAuthenticated(isAuthenticatedLocalStorage);
-      setMessage(props);
+      setMessage(message);
     }
-  }, [data, props]);
+  }, [data]);
+
+  /**
+   * Defines the register function
+   */
+  register = newUser => {
+    setApiCall(
+      getUseDataHookProps({
+        options: {
+          promiseFn: fetcherRegister,
+          promiseFnParams: { newUser: newUser },
+          initialValue: "Registering ..."
+        }
+      })
+    );
+  };
 
   /**
    * Defines the login function
@@ -233,20 +278,10 @@ const useAuthStrategyTokenFinster = props => {
    */
   logout = () => {
     setIsAuthenticatedLocalStorage(false);
-    setApiCall(getUseDataHookProps(api));
-  };
-
-  /**
-   * Defines the register function
-   */
-  register = newUser => {
     setApiCall(
       getUseDataHookProps({
-        options: {
-          promiseFn: fetcherRegister,
-          promiseFnParams: { newUser: newUser },
-          initialValue: "Registering ..."
-        }
+        ...api,
+        options: { initialValue: { message: "Logged out" } }
       })
     );
   };
