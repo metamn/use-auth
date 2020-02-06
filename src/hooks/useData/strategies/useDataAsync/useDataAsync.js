@@ -77,7 +77,6 @@ const getHookProps = props => {
  * Defines the hook functionality
  */
 const useDataAsync = props => {
-  console.log("useDataAsync:", props);
   const { options } = props;
   const { promiseFn, promiseFnParams, watch } = options;
 
@@ -92,8 +91,6 @@ const useDataAsync = props => {
     watch: watch,
     ...promiseFnParams
   });
-
-  console.log("useAsync data:", data);
 
   return { data, error, reload, cancel };
 };
