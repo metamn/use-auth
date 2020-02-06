@@ -214,27 +214,16 @@ const useAuthStrategyTokenFinster = props => {
   /**
    * Manages the result of an API call
    *
-   * - All calls should return a `data` object with a `status` field
-   * - If these are empty we presume an error occured somewhere else
    */
   useEffect(() => {
     console.log("d:", data);
 
-    /**
-     * This is how an ok result looks like:
-     *
-	  "status": "ok",
-	  "query_id": "1261967432",
-	  "request_time": 1580891194,
-	  "credits": "9779403",
-	  "credit_reset_date": "2030-01-01 00:00:00",
-	  "plan_id": null,
-	  "login_ago": "475",
-	  "token": "d11e7916590604d1356a08579aad99dc6bd3cfd1"
-	 */
-
     if (data && data.status) {
-      // controlled state
+      /**
+       * Controlled state
+       *
+       * - All calls should return a `data` object with a `status` field
+       */
       const authenticated = data.status === "ok";
       const message = data.token
         ? `Token: ${data.token}`
@@ -248,10 +237,15 @@ const useAuthStrategyTokenFinster = props => {
       setIsAuthenticatedLocalStorage(authenticated);
       setMessage(message);
     } else {
-      // uncontrolled state
+      /**
+       * Uncontrolled state
+       *
+       * - No `data` object and `status` field.
+       * - An error occured somewhere else, perhaps not in this file
+       */
       const message = isAuthenticatedLocalStorage
         ? "Auth done via local storage"
-        : "";
+        : "An error occured.";
 
       setIsAuthenticated(isAuthenticatedLocalStorage);
       setMessage(message);
