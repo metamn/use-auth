@@ -204,7 +204,6 @@ const useAuthStrategyTokenFinster = props => {
    *
    * - Every API call does nothing than changing this `apiCall` value.
    * - After that change a new `useData` call is made.
-   * // TODO: The assumption above is false
    */
   const [apiCall, setApiCall] = useState(getUseDataHookProps(api));
 
@@ -254,7 +253,7 @@ const useAuthStrategyTokenFinster = props => {
       setIsAuthenticated(isAuthenticatedLocalStorage);
       setMessage(message);
     }
-  }, [data]);
+  }, [data, apiCall]);
 
   /**
    * Defines the register function

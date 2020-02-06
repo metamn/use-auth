@@ -32,6 +32,7 @@ const defaultProps = useDataAsyncDefaultProps;
  * Implements the hook
  */
 const useData = props => {
+  console.log("useData:", props);
   /**
    * Prepares the props
    *
