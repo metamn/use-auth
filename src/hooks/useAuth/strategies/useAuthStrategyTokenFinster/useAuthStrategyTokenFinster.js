@@ -212,7 +212,7 @@ const useAuthStrategyTokenFinster = props => {
   /**
    * Performs an API call
    */
-  const { data, error } = useData(apiCall);
+  const { data, error, timestamp } = useData(apiCall);
 
   /**
    * Manages the result of an API call
@@ -253,7 +253,7 @@ const useAuthStrategyTokenFinster = props => {
       setIsAuthenticated(isAuthenticatedLocalStorage);
       setMessage(message);
     }
-  }, [data, apiCall]);
+  }, [data, timestamp]);
 
   /**
    * Defines the register function

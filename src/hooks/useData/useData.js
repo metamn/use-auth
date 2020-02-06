@@ -41,6 +41,8 @@ const useData = props => {
   const initialValue = useDataAsyncGetInitialValue(props);
   const hookProps = useDataAsyncGetHookProps(props);
 
+  const timestamp = +new Date();
+
   /**
    * Queries the API
    */
@@ -50,7 +52,7 @@ const useData = props => {
    * Returns default data while real data is loaded from the API
    */
   if (data === undefined) {
-    return { data: initialValue, error, reload, cancel };
+    return { data: initialValue, error, reload, cancel, timestamp };
   }
 
   /**
@@ -63,7 +65,7 @@ const useData = props => {
   /**
    * Returns data and functions
    */
-  return { data: data, reload, cancel };
+  return { data: data, reload, cancel, timestamp };
 };
 
 useData.propTypes = propTypes;
