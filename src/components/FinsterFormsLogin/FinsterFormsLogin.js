@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { useAuth } from "./../../hooks";
+
 /**
  * Defines the prop types
  */
@@ -15,7 +17,42 @@ const defaultProps = {};
  * Displays the component
  */
 const FinsterFormsLogin = props => {
-  return <div className="FinsterFormsLogin">FinsterFormsLogin</div>;
+  const { isAuthenticated, login, message } = useAuth();
+
+  const handleSubmit = event => {
+    const { target } = event;
+    const email = target[0].value;
+    const password = target[1].value;
+
+    login({ email: email, password: password });
+
+    event.preventDefault();
+  };
+
+  return (
+    <div className="FinsterFormsLogin">
+      <h4>Login</h4>
+
+      <ul>
+        <li>isAuthenticated: {isAuthenticated}</li>
+        <li>Message: {message}</li>
+      </ul>
+
+      <form onSubmit={handleSubmit}>
+        <label>
+          <p>Email:</p>
+          <input name="email" type="text" />
+        </label>
+        <label>
+          <p>Password:</p>
+          <input name="password" type="password" />
+        </label>
+        <p>
+          <input type="submit" value="Submit" />
+        </p>
+      </form>
+    </div>
+  );
 };
 
 FinsterFormsLogin.propTypes = propTypes;
