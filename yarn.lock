@@ -4221,6 +4221,12 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
+hoist-non-react-statics@^3.3.0:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
+  dependencies:
+    react-is "^16.7.0"
+
 hosted-git-info@^2.1.4:
   version "2.8.5"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.5.tgz#759cfcf2c4d156ade59b0b2dfabddc42a6b9c70c"
@@ -4399,6 +4405,10 @@ ignore@^4.0.6:
 immer@1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
+
+immutable@^4.0.0-rc.12:
+  version "4.0.0-rc.12"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -7200,7 +7210,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.3"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   dependencies:
@@ -7290,7 +7300,6 @@ query-string@^4.1.0:
 query-string@^6.10.1:
   version "6.10.1"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.10.1.tgz#30b3505f6fca741d5ae541964d1b3ae9dc2a0de8"
-  integrity sha512-SHTUV6gDlgMXg/AQUuLpTiBtW/etZ9JT6k6RCtCyqADquApLX0Aq5oK/s5UeTUAWBG50IExjIr587GqfXRfM4A==
   dependencies:
     decode-uri-component "^0.2.0"
     split-on-first "^1.0.0"
@@ -7360,6 +7369,13 @@ react-app-polyfill@^1.0.5:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
+react-async-script@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-async-script/-/react-async-script-1.1.1.tgz#f481c6c5f094bf4b94a9d52da0d0dda2e1a74bdf"
+  dependencies:
+    hoist-non-react-statics "^3.3.0"
+    prop-types "^15.5.0"
+
 react-async@^10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/react-async/-/react-async-10.0.0.tgz#3a123017692e130b35b82e5e426699ac3f4d609b"
@@ -7406,7 +7422,14 @@ react-error-overlay@^6.0.4:
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.4.tgz#0d165d6d27488e660bc08e57bdabaad741366f7a"
 
-react-is@^16.8.1, react-is@^16.8.4:
+react-google-recaptcha@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-google-recaptcha/-/react-google-recaptcha-2.0.1.tgz#3276b29659493f7ca2a5b7739f6c239293cdf1d8"
+  dependencies:
+    prop-types "^15.5.0"
+    react-async-script "^1.1.1"
+
+react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
 
@@ -8208,7 +8231,6 @@ spdy@^4.0.1:
 split-on-first@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/split-on-first/-/split-on-first-1.1.0.tgz#f610afeee3b12bce1d0c30425e76398b78249a5f"
-  integrity sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
@@ -8305,7 +8327,6 @@ strict-uri-encode@^1.0.0:
 strict-uri-encode@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
-  integrity sha1-ucczDHBChi9rFC3CdLvMWGbONUY=
 
 string-length@^2.0.0:
   version "2.0.0"
