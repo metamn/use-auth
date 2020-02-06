@@ -38,6 +38,7 @@ const FinsterStrategy = props => {
 
   return (
     <div className="FinsterStrategy">
+      <h3>No forms (wired in props)</h3>
       <ul>
         <li key="strategy">Strategy: {strategy}</li>
         <li key="isAuthenticated">
