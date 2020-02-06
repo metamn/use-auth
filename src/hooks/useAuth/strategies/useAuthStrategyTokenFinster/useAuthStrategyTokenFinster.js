@@ -280,7 +280,8 @@ const useAuthStrategyTokenFinster = props => {
         options: {
           promiseFn: fetcherLogin,
           promiseFnParams: { user: user },
-          initialValue: { message: "Logging in ..." }
+          initialValue: { message: "Logging in ..." },
+          watch: user
         }
       })
     );
