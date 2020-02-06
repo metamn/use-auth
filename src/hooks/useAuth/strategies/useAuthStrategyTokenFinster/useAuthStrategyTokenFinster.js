@@ -125,6 +125,7 @@ const defaultProps = {
  *
  */
 const fetcherLogin = async ({ user }) => {
+  console.log("fetcherLogin:", user);
   const encodedUser = queryString.stringify(user);
 
   const response = await fetch(
@@ -133,6 +134,8 @@ const fetcherLogin = async ({ user }) => {
 
   if (response && response.status === "error")
     throw new Error(`Error: ${response}`);
+
+  console.log("fetcherLogin response:", response);
   return response.json();
 };
 
@@ -271,6 +274,7 @@ const useAuthStrategyTokenFinster = props => {
    * Defines the login function
    */
   login = user => {
+    console.log("login");
     setApiCall(
       getUseDataHookProps({
         options: {
