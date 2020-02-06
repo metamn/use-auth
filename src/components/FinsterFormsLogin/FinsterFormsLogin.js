@@ -23,8 +23,10 @@ const FinsterFormsLogin = props => {
     const { target } = event;
     const email = target[0].value;
     const password = target[1].value;
+    const credentials = { email: email, password: password };
+    console.log("credentials:", credentials);
 
-    login({ email: email, password: password });
+    login(credentials);
 
     event.preventDefault();
   };
