@@ -201,7 +201,8 @@ const useAuthStrategyTokenFinster = props => {
   /**
    * Manages the API calls (login, register, etc.)
    *
-   * - Every API call does nothing than changing this `apiCall` value
+   * - Every API call does nothing than changing this `apiCall` value.
+   * - After that change a new `useData` call is made.
    */
   const [apiCall, setApiCall] = useState(getUseDataHookProps(api));
 
@@ -212,6 +213,9 @@ const useAuthStrategyTokenFinster = props => {
 
   /**
    * Manages the result of an API call
+   *
+   * - All calls should return a `data` object with a `status` field
+   * - If these are empty we presume an error occured somewhere else
    */
   useEffect(() => {
     console.log("d:", data);
@@ -236,7 +240,9 @@ const useAuthStrategyTokenFinster = props => {
         ? `Token: ${data.token}`
         : data.message
         ? data.message
-        : "????";
+        : data.user_message
+        ? data.user_message
+        : "No message from the API";
 
       setIsAuthenticated(authenticated);
       setIsAuthenticatedLocalStorage(authenticated);
