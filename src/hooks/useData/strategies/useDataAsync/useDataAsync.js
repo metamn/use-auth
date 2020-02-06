@@ -64,8 +64,6 @@ const getHookProps = props => {
  * Defines the hook functionality
  */
 const useDataAsync = props => {
-  console.log("useDataAsync:", props);
-
   const { options } = props;
   const { promiseFn, promiseFnParams } = options;
 
@@ -80,12 +78,6 @@ const useDataAsync = props => {
     ...promiseFnParams
   });
 
-  /**
-   * // TODO: Sometimes the same data is returned.
-   * what to do then?
-   */
-  console.log("useDataAsync data:", data);
-
   return { data, error, reload, cancel };
 };
 
@@ -96,6 +88,6 @@ export default useDataAsync;
 export {
   propTypes as useDataAsyncPropTypes,
   defaultProps as useDataAsyncDefaultProps,
-  getHookProps as useDataAsyncGetHookProps,
-  getInitialValue as useDataAsyncGetInitialValue
+  getHookProps as getHookPropsUseDataAsync,
+  getInitialValue as getInitialValueUseDataAsync
 };

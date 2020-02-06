@@ -14,8 +14,8 @@ import PropTypes from "prop-types";
 import useDataAsync, {
   useDataAsyncPropTypes,
   useDataAsyncDefaultProps,
-  useDataAsyncGetHookProps,
-  useDataAsyncGetInitialValue
+  getHookPropsUseDataAsync,
+  getInitialValueUseDataAsync
 } from "./strategies/useDataAsync";
 
 /**
@@ -32,15 +32,21 @@ const defaultProps = useDataAsyncDefaultProps;
  * Implements the hook
  */
 const useData = props => {
-  console.log("useData:", props);
   /**
    * Prepares the props
    *
    * - This step has to be performed to map a strategy to the hook code below
    */
-  const initialValue = useDataAsyncGetInitialValue(props);
-  const hookProps = useDataAsyncGetHookProps(props);
+  const initialValue = getInitialValueUseDataAsync(props);
+  const hookProps = getHookPropsUseDataAsync(props);
 
+  /**
+   * Prepares a timestamp
+   *
+   * Sometimes after an API call the data is not changed, ie the same data is returned.
+   * In this case the UI is not refreshed with `useEffect(()=>{...}, [data])`
+   * If one wants to refresh the UI timestamp can help: `useEffect(()=>{...}, [data, timestamp])`
+   */
   const timestamp = +new Date();
 
   /**
@@ -59,7 +65,7 @@ const useData = props => {
    * Returns the error
    */
   if (error) {
-    return { data: null, error, reload, cancel };
+    return { data: null, error, reload, cancel, timestamp };
   }
 
   /**
@@ -75,6 +81,6 @@ export default useData;
 export {
   propTypes as useDataPropTypes,
   defaultProps as useDataDefaultProps,
-  useDataAsyncGetHookProps as getUseDataHookProps,
-  useDataAsyncGetInitialValue as getUseDataInitialValue
+  getHookPropsUseDataAsync as getUseDataHookProps,
+  getInitialValueUseDataAsync as getUseDataInitialValue
 };

@@ -125,7 +125,6 @@ const defaultProps = {
  *
  */
 const fetcherLogin = async ({ user }) => {
-  console.log("fetcherLogin:", user);
   const encodedUser = queryString.stringify(user);
 
   const response = await fetch(
@@ -207,8 +206,6 @@ const useAuthStrategyTokenFinster = props => {
    */
   const [apiCall, setApiCall] = useState(getUseDataHookProps(api));
 
-  console.log("apiCall:", apiCall);
-
   /**
    * Performs an API call
    */
@@ -274,18 +271,15 @@ const useAuthStrategyTokenFinster = props => {
    * Defines the login function
    */
   login = user => {
-    console.log("login:", user);
-
-    const newProps = getUseDataHookProps({
-      options: {
-        promiseFn: fetcherLogin,
-        promiseFnParams: { user: user },
-        initialValue: { message: "Logging in ..." }
-      }
-    });
-    console.log("newProps:", newProps);
-
-    setApiCall(newProps);
+    setApiCall(
+      getUseDataHookProps({
+        options: {
+          promiseFn: fetcherLogin,
+          promiseFnParams: { user: user },
+          initialValue: { message: "Logging in ..." }
+        }
+      })
+    );
   };
 
   /**
