@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import ReCAPTCHA from "react-google-recaptcha";
+import {
+  GoogleReCaptchaProvider,
+  useGoogleReCaptcha
+} from "react-google-recaptcha-v3";
 
 import { useAuth } from "./../../hooks";
 
@@ -20,72 +23,62 @@ const defaultProps = {};
 const FinsterFormsRegister = props => {
   const { isAuthenticated, register, message } = useAuth();
 
-  /**
-   * Recaptcha is not working ... skipping it
-   */
-  const recaptchaRef = React.createRef();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const handleChange = () => {
-    const recaptchaValue = recaptchaRef.current.getValue();
-    console.log("Captcha value:", recaptchaValue);
-  };
-
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     const { target } = event;
-
     const name = target[0].value;
     const email = target[1].value;
     const password = target[2].value;
-    const reCaptcha = recaptchaRef.current.getValue();
 
-    const newUser = {
-      name: name,
-      email: email,
-      password: password,
-      //recaptcha_response: reCaptcha
-      recaptcha_ignore: "293kwlxh"
-    };
-    console.log("newUser:", newUser);
+    try {
+      const token = await executeRecaptcha("register");
 
-    register(newUser);
+      const newUser = {
+        name: name,
+        email: email,
+        password: password,
+        recaptcha_response: token
+      };
+      console.log("newUser:", newUser);
+
+      register(newUser);
+    } catch (e) {
+      console.error(e);
+    }
 
     event.preventDefault();
   };
 
   return (
-    <div className="FinsterFormsRegister">
-      <h4>Register</h4>
+    <GoogleReCaptchaProvider reCaptchaKey="6Lef3MEUAAAAAEBgmgSa4i6a4Napq2iD32qS4DrG">
+      <div className="FinsterFormsRegister">
+        <h4>Register</h4>
 
-      <ul>
-        <li>isAuthenticated: {isAuthenticated}</li>
-        <li>Message: {message}</li>
-      </ul>
+        <ul>
+          <li>isAuthenticated: {isAuthenticated}</li>
+          <li>Message: {message}</li>
+        </ul>
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          <p>Name:</p>
-          <input name="name" type="text" />
-        </label>
-        <label>
-          <p>Email:</p>
-          <input name="email" type="text" />
-        </label>
-        <label>
-          <p>Password:</p>
-          <input name="password" type="password" />
-        </label>
-        {/*
-        <ReCAPTCHA
-          ref={recaptchaRef}
-          onChange={handleChange}
-          sitekey="6LdKn9YUAAAAAI1o9k28L6mlSIqmGxXZRRcjkjot"
-        />
-		*/}
-        <p>
-          <input type="submit" value="Submit" />
-        </p>
-      </form>
-    </div>
+        <form onSubmit={handleSubmit}>
+          <label>
+            <p>Name:</p>
+            <input name="name" type="text" />
+          </label>
+          <label>
+            <p>Email:</p>
+            <input name="email" type="text" />
+          </label>
+          <label>
+            <p>Password:</p>
+            <input name="password" type="password" />
+          </label>
+          <p>
+            <input type="submit" value="Submit" />
+          </p>
+        </form>
+      </div>
+    </GoogleReCaptchaProvider>
   );
 };
 
