@@ -45,7 +45,7 @@ const FinsterFormsRegister = props => {
       <h4>Register</h4>
 
       <ul>
-        <li>isAuthenticated: {isAuthenticated}</li>
+        <li>isAuthenticated: {JSON.stringify(isAuthenticated)}</li>
         <li>Message: {message}</li>
       </ul>
 

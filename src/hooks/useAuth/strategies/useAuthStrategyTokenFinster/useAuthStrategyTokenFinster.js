@@ -243,7 +243,7 @@ const useAuthStrategyTokenFinster = props => {
       const message = isAuthenticatedLocalStorage
         ? "Auth done via local storage"
         : error
-        ? error
+        ? JSON.stringify(error)
         : "Loading ...";
 
       setIsAuthenticated(isAuthenticatedLocalStorage);

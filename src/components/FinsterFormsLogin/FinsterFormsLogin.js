@@ -19,15 +19,14 @@ const FinsterFormsLogin = props => {
   const { isAuthenticated, login, message } = useAuth();
 
   const handleSubmit = event => {
+    event.preventDefault();
+
     const { target } = event;
     const email = target[0].value;
     const password = target[1].value;
     const credentials = { email: email, password: password };
-    console.log("credentials:", credentials);
 
     login(credentials);
-
-    event.preventDefault();
   };
 
   return (
@@ -35,7 +34,7 @@ const FinsterFormsLogin = props => {
       <h4>Login</h4>
 
       <ul>
-        <li>isAuthenticated: {isAuthenticated}</li>
+        <li>isAuthenticated: {JSON.stringify(isAuthenticated)}</li>
         <li>Message: {message}</li>
       </ul>
 
