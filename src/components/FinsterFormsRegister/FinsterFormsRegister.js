@@ -33,6 +33,8 @@ const FinsterFormsRegister = props => {
     const email = target[1].value;
     const password = target[2].value;
 
+    console.log("name");
+
     try {
       const token = await executeRecaptcha("register");
 
