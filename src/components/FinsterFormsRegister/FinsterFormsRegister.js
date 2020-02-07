@@ -26,6 +26,8 @@ const FinsterFormsRegister = props => {
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleSubmit = async event => {
+    console.log("1");
+
     const { target } = event;
     const name = target[0].value;
     const email = target[1].value;
@@ -33,6 +35,8 @@ const FinsterFormsRegister = props => {
 
     try {
       const token = await executeRecaptcha("register");
+
+      console.log("2");
 
       const newUser = {
         name: name,
@@ -51,34 +55,32 @@ const FinsterFormsRegister = props => {
   };
 
   return (
-    <GoogleReCaptchaProvider reCaptchaKey="6Lef3MEUAAAAAEBgmgSa4i6a4Napq2iD32qS4DrG">
-      <div className="FinsterFormsRegister">
-        <h4>Register</h4>
+    <div className="FinsterFormsRegister">
+      <h4>Register</h4>
 
-        <ul>
-          <li>isAuthenticated: {isAuthenticated}</li>
-          <li>Message: {message}</li>
-        </ul>
+      <ul>
+        <li>isAuthenticated: {isAuthenticated}</li>
+        <li>Message: {message}</li>
+      </ul>
 
-        <form onSubmit={handleSubmit}>
-          <label>
-            <p>Name:</p>
-            <input name="name" type="text" />
-          </label>
-          <label>
-            <p>Email:</p>
-            <input name="email" type="text" />
-          </label>
-          <label>
-            <p>Password:</p>
-            <input name="password" type="password" />
-          </label>
-          <p>
-            <input type="submit" value="Submit" />
-          </p>
-        </form>
-      </div>
-    </GoogleReCaptchaProvider>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <p>Name:</p>
+          <input name="name" type="text" />
+        </label>
+        <label>
+          <p>Email:</p>
+          <input name="email" type="text" />
+        </label>
+        <label>
+          <p>Password:</p>
+          <input name="password" type="password" />
+        </label>
+        <p>
+          <input type="submit" value="Submit" />
+        </p>
+      </form>
+    </div>
   );
 };
 

@@ -7,6 +7,7 @@ import {
   Link,
   useRouteMatch
 } from "react-router-dom";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 import FinsterFormsLogin from "../FinsterFormsLogin";
 import FinsterFormsRegister from "../FinsterFormsRegister";
@@ -48,7 +49,9 @@ const FinsterForms = props => {
           <FinsterFormsLogin />
         </Route>
         <Route path={`${path}/register`}>
-          <FinsterFormsRegister />
+          <GoogleReCaptchaProvider reCaptchaKey="6Lef3MEUAAAAAEBgmgSa4i6a4Napq2iD32qS4DrG">
+            <FinsterFormsRegister />
+          </GoogleReCaptchaProvider>
         </Route>
       </Switch>
     </div>
