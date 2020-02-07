@@ -3,16 +3,14 @@
  *
  * @see useAuthStrategyTokenFinster.md for details
  */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import queryString from "query-string";
 import useLocalStorage from "../../../useLocalStorage";
 
 import useData, {
   useDataPropTypes,
-  useDataDefaultProps,
-  getUseDataHookProps,
-  getUseDataInitialValue
+  getUseDataHookProps
 } from "../../../useData";
 
 /**
@@ -176,8 +174,7 @@ const useAuthStrategyTokenFinster = props => {
     logout,
     api,
     localStorageKey,
-    register,
-    newUser
+    register
   } = defaultProps;
 
   /**
@@ -218,8 +215,6 @@ const useAuthStrategyTokenFinster = props => {
    *
    */
   useEffect(() => {
-    console.log("d:", data);
-
     if (data && data.status) {
       /**
        * Controlled state
@@ -247,12 +242,20 @@ const useAuthStrategyTokenFinster = props => {
        */
       const message = isAuthenticatedLocalStorage
         ? "Auth done via local storage"
+        : error
+        ? error
         : "Loading ...";
 
       setIsAuthenticated(isAuthenticatedLocalStorage);
       setMessage(message);
     }
-  }, [data, timestamp]);
+  }, [
+    data,
+    timestamp,
+    error,
+    isAuthenticatedLocalStorage,
+    setIsAuthenticatedLocalStorage
+  ]);
 
   /**
    * Defines the register function
@@ -273,7 +276,6 @@ const useAuthStrategyTokenFinster = props => {
    * Defines the login function
    */
   login = user => {
-    console.log("login");
     setApiCall(
       getUseDataHookProps({
         options: {

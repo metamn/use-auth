@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 import { useAsync } from "react-async";
@@ -30,7 +29,12 @@ const propTypes = {
      *
      * - Sometimes `useData` doesn't fetch the data just returns a cached value.
      * - To make it always fetch this `watch` prop can be used.
-     * - Example: on consecutive logins only the first login does an XHR call. When the credentials are passed through `watch` the XHR call is always done.
+     * - Example: on consecutive logins only the first login does an XHR call. When the login credentials are passed through `watch` the XHR call is always done.
+     *
+     * - Caveat: because of referntial integrity checks consecutive calls with the same `watch` param might do an XHR call every time. To solve the problem use `watchFn` instead of `watch`.
+     * Example: on consecutive logins with the same working credentials and `watch` holding these credential in all cases an XHR call is made. Instead only one XHR call should be made.
+     *
+     * @see https://docs.react-async.com/api/options#watch
      */
     watch: PropTypes.any
   })

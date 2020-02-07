@@ -1,12 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch
-} from "react-router-dom";
+import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 import FinsterFormsLogin from "../FinsterFormsLogin";

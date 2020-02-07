@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import {
-  GoogleReCaptchaProvider,
-  useGoogleReCaptcha
-} from "react-google-recaptcha-v3";
+import React from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 import { useAuth } from "./../../hooks";
 
