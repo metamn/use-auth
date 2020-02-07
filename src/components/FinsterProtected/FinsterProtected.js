@@ -43,11 +43,14 @@ const defaultProps = {
  * Finster specific fetcher for getting the subscriptions
  *
  */
-const fetcherSubscriptions = async ({ user }) => {
-  const encodedParams = queryString.stringify(user);
+const fetcherSubscriptions = async ({ token }) => {
+  const data = token;
 
   const response = await fetch(
-    `http://api.finsterdata.com/v1/subscription.php?action=list`
+    `http://api.finsterdata.com/v1/subscription.php?action=list`,
+    {
+      body: JSON.stringify(data)
+    }
   );
 
   if (response && response.status === "error")
@@ -93,15 +96,21 @@ const FinsterProtected = props => {
    */
   useEffect(() => {
     if (data && data.status) {
+      const plan_id = data.plan_id
+        ? `Plan id: ${data.plan_id}`
+        : "No plan id for this account";
+
       const message = data.message
         ? data.message
         : data.user_message
         ? data.user_message
         : "No message from the API";
 
+      setResults(plan_id);
       setMessage(message);
     } else {
       const message = error ? JSON.stringify(error) : "Loading ...";
+      setResults("");
       setMessage(message);
     }
   }, [data, error]);
@@ -124,8 +133,10 @@ const FinsterProtected = props => {
   const Content = () => {
     return (
       <>
-        <p>isAuthenticated: {JSON.stringify(isAuthenticated)}</p>
-        <p>Message: {message}</p>
+        <ul>
+          <li>isAuthenticated: {JSON.stringify(isAuthenticated)}</li>
+          <li>Message: {message}</li>
+        </ul>
         <button onClick={() => getResults()}>Load results</button>
         <p>Results: {results}</p>
       </>
