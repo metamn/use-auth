@@ -20,11 +20,17 @@ const defaultProps = {};
 const FinsterFormsRegister = props => {
   const { isAuthenticated, register, message } = useAuth();
 
+  /**
+   * Recaptcha is not working ... skipping it
+   */
   const recaptchaRef = React.createRef();
 
-  const handleSubmit = event => {
-    recaptchaRef.current.execute();
+  const handleChange = () => {
+    const recaptchaValue = recaptchaRef.current.getValue();
+    console.log("Captcha value:", recaptchaValue);
+  };
 
+  const handleSubmit = event => {
     const { target } = event;
 
     const name = target[0].value;
@@ -36,7 +42,8 @@ const FinsterFormsRegister = props => {
       name: name,
       email: email,
       password: password,
-      recaptcha_response: reCaptcha
+      //recaptcha_response: reCaptcha
+      recaptcha_ignore: "293kwlxh"
     };
     console.log("newUser:", newUser);
 
@@ -67,13 +74,16 @@ const FinsterFormsRegister = props => {
           <p>Password:</p>
           <input name="password" type="password" />
         </label>
+        {/*
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          onChange={handleChange}
+          sitekey="6LdKn9YUAAAAAI1o9k28L6mlSIqmGxXZRRcjkjot"
+        />
+		*/}
         <p>
           <input type="submit" value="Submit" />
         </p>
-        <ReCAPTCHA
-          ref={recaptchaRef}
-          sitekey="6LeNBckSAAAAAIdiceIunIQR4pkCk0ZnQDf_cojD"
-        />
       </form>
     </div>
   );
