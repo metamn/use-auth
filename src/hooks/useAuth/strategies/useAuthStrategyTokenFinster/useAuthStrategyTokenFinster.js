@@ -125,17 +125,15 @@ const defaultProps = {
  *
  */
 const fetcherLogin = async ({ user }) => {
-  console.log("fetcherLogin:", user);
-  const encodedUser = queryString.stringify(user);
+  const encodedParams = queryString.stringify(user);
 
   const response = await fetch(
-    `http://api.finsterdata.com/v1/login?${encodedUser}`
+    `http://api.finsterdata.com/v1/login?${encodedParams}`
   );
 
   if (response && response.status === "error")
     throw new Error(`Error: ${response}`);
 
-  console.log("fetcherLogin response:", response);
   return response.json();
 };
 
@@ -144,14 +142,15 @@ const fetcherLogin = async ({ user }) => {
  *
  */
 const fetcherRegister = async ({ newUser }) => {
-  const encoded = queryString.stringify(newUser);
+  const encodedParams = queryString.stringify(newUser);
 
   const response = await fetch(
-    `http://api.finsterdata.com/v1/register?${encoded}`
+    `http://api.finsterdata.com/v1/register?${encodedParams}`
   );
 
   if (response && response.status === "error")
     throw new Error(`Error: ${response}`);
+
   return response.json();
 };
 
@@ -248,7 +247,7 @@ const useAuthStrategyTokenFinster = props => {
        */
       const message = isAuthenticatedLocalStorage
         ? "Auth done via local storage"
-        : "An error occured.";
+        : "Loading ...";
 
       setIsAuthenticated(isAuthenticatedLocalStorage);
       setMessage(message);
