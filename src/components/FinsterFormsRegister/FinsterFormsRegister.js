@@ -26,34 +26,22 @@ const FinsterFormsRegister = props => {
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleSubmit = async event => {
-    console.log("1");
+    event.preventDefault();
 
     const { target } = event;
     const name = target[0].value;
     const email = target[1].value;
     const password = target[2].value;
+    const recaptcha_response = await executeRecaptcha("register");
 
-    console.log("name");
+    const newUser = {
+      name: name,
+      email: email,
+      password: password,
+      recaptcha_response: recaptcha_response
+    };
 
-    try {
-      const token = await executeRecaptcha("register");
-
-      console.log("2");
-
-      const newUser = {
-        name: name,
-        email: email,
-        password: password,
-        recaptcha_response: token
-      };
-      console.log("newUser:", newUser);
-
-      register(newUser);
-    } catch (e) {
-      console.error(e);
-    }
-
-    event.preventDefault();
+    register(newUser);
   };
 
   return (
