@@ -22,6 +22,10 @@ const propTypes = {
    */
   isAuthenticated: PropTypes.bool,
   /**
+   * Returns the token
+   */
+  token: PropTypes.string,
+  /**
    * Returns the user object
    */
   user: PropTypes.shape({
@@ -72,6 +76,7 @@ const propTypes = {
  */
 const defaultProps = {
   isAuthenticated: false,
+  token: "",
   user: {
     email: "",
     password: ""
@@ -198,6 +203,11 @@ const useAuthStrategyTokenFinster = props => {
   const [message, setMessage] = useState("");
 
   /**
+   * Manages the token
+   */
+  const [token, setToken] = useState("");
+
+  /**
    * Manages the API calls (login, register, etc.)
    *
    * - Every API call does nothing than changing this `apiCall` value.
@@ -222,6 +232,7 @@ const useAuthStrategyTokenFinster = props => {
        * - All calls should return a `data` object with a `status` field
        */
       const authenticated = data.status === "ok";
+      const token = data.token ? data.token : "";
       const message = data.token
         ? `Token: ${data.token}`
         : data.message
@@ -232,6 +243,7 @@ const useAuthStrategyTokenFinster = props => {
 
       setIsAuthenticated(authenticated);
       setIsAuthenticatedLocalStorage(authenticated);
+      setToken(token);
       setMessage(message);
     } else {
       /**
@@ -303,7 +315,16 @@ const useAuthStrategyTokenFinster = props => {
     );
   };
 
-  return { isAuthenticated, user, login, logout, register, strategy, message };
+  return {
+    isAuthenticated,
+    token,
+    user,
+    login,
+    logout,
+    register,
+    strategy,
+    message
+  };
 };
 
 useAuthStrategyTokenFinster.propTypes = propTypes;

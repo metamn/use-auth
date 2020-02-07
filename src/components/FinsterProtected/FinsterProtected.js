@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import queryString from "query-string";
 
-import { useAuth, useData, getUseDataHookProps } from "./../../hooks";
+import { useAuth, useData } from "./../../hooks";
+import { getUseDataHookProps } from "./../../hooks/useData";
 
 /**
  * Defines the prop types
@@ -61,7 +62,7 @@ const fetcherSubscriptions = async ({ user }) => {
 const FinsterProtected = props => {
   const { credentials, api } = props;
 
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated, login, token } = useAuth();
 
   /**
    * State to be loaded with results
