@@ -30,13 +30,14 @@ const defaultProps = {
  * Displays the component
  */
 const FinsterAPI = props => {
-  const { isAuthenticated, token, message, strategy } = useAuth();
+  const { login: loginAPICallProps } = props;
+  const { isAuthenticated, token, message, login, strategy } = useAuth();
 
   const buttons = isAuthenticated ? (
     <button>Logout</button>
   ) : (
     <>
-      <button>Login</button>
+      <button onClick={() => login(loginAPICallProps)}>Login</button>
       <button>Register</button>
     </>
   );

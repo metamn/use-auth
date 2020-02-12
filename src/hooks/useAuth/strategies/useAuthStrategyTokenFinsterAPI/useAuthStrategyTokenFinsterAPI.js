@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import useLocalStorage from "../../../useLocalStorage";
-import {
-  useAPI,
+import useAPI, {
   useAPIPropTypes,
   isApiError,
   getApiErrorMessage,
@@ -119,7 +118,24 @@ const useAuthStrategyTokenFinsterAPI = () => {
    */
   const [message, setMessage] = useState(messageFromProps);
 
-  return { isAuthenticated, token, message, strategy };
+  /**
+   * Manages the login
+   */
+  const login = props => {
+    const params = mergeApiParams({ requestProps: props });
+    const { data } = useAPI(params);
+
+    useEffect(() => {
+      if (isApiError(data)) {
+        setMessage(getApiErrorMessage(data));
+      } else {
+        console.log("data:", data);
+        setMessage("API request was successful");
+      }
+    }, [data]);
+  };
+
+  return { isAuthenticated, token, message, login, strategy };
 };
 
 useAuthStrategyTokenFinsterAPI.propTypes = propTypes;
