@@ -11,13 +11,35 @@ const propTypes = {};
 /**
  * Defines the default props
  */
-const defaultProps = {};
+const defaultProps = {
+  login: {
+    path: {
+      endpoint: "login"
+    },
+    params: {
+      queryParams: {
+        email: "p.schinkel+5@vacat.nl",
+        password: "test123"
+      }
+    },
+    defaultData: "Logging in ..."
+  }
+};
 
 /**
  * Displays the component
  */
 const FinsterAPI = props => {
   const { isAuthenticated, token, message, strategy } = useAuth();
+
+  const buttons = isAuthenticated ? (
+    <button>Logout</button>
+  ) : (
+    <>
+      <button>Login</button>
+      <button>Register</button>
+    </>
+  );
 
   return (
     <div className="FinsterAPI">
@@ -28,6 +50,7 @@ const FinsterAPI = props => {
         <li>Strategy: {strategy}</li>
         <li>Message: {message}</li>
       </ul>
+      {buttons}
     </div>
   );
 };
