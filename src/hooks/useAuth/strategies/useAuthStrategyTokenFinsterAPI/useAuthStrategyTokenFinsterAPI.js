@@ -73,13 +73,13 @@ const defaultProps = {
 /**
  * Displays the component
  */
-const useAuthStrategyTokenFinsterAPI = props => {
+const useAuthStrategyTokenFinsterAPI = () => {
   const {
     localStorageKey,
     token: tokenFromProps,
     message: messageFromProps,
     strategy
-  } = props;
+  } = defaultProps;
 
   /**
    * Checks local storage if the user is authenticated already
