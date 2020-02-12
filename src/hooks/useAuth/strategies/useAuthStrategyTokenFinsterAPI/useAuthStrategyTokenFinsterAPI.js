@@ -2,12 +2,6 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import useLocalStorage from "../../../useLocalStorage";
-import useAPI, {
-  useAPIPropTypes,
-  isApiError,
-  getApiErrorMessage,
-  mergeApiParams
-} from "../../../useAPI";
 
 /**
  * Defines the prop types
@@ -27,18 +21,6 @@ const propTypes = {
   user: PropTypes.shape({
     email: PropTypes.string
   }),
-  /**
-   * Defines the login function
-   */
-  login: PropTypes.func,
-  /**
-   * Defines the logout function
-   */
-  logout: PropTypes.func,
-  /**
-   * Defines the register function
-   */
-  register: PropTypes.func,
   /**
    * Defines the key for storing auth status in local storage
    */
@@ -61,15 +43,6 @@ const defaultProps = {
   token: "",
   user: {
     email: ""
-  },
-  login: () => {
-    return console.log("Finster API auth login");
-  },
-  logout: () => {
-    return console.log("Finster API auth logout");
-  },
-  register: () => {
-    return console.log("Finster API auth register");
   },
   localStorageKey: "localStorageKey",
   strategy: "finsterAPI",
@@ -118,24 +91,7 @@ const useAuthStrategyTokenFinsterAPI = () => {
    */
   const [message, setMessage] = useState(messageFromProps);
 
-  /**
-   * Manages the login
-   */
-  const login = props => {
-    const params = mergeApiParams({ requestProps: props });
-    const { data } = useAPI(params);
-
-    useEffect(() => {
-      if (isApiError(data)) {
-        setMessage(getApiErrorMessage(data));
-      } else {
-        console.log("data:", data);
-        setMessage("API request was successful");
-      }
-    }, [data]);
-  };
-
-  return { isAuthenticated, token, message, login, strategy };
+  return { isAuthenticated, token, message, strategy };
 };
 
 useAuthStrategyTokenFinsterAPI.propTypes = propTypes;

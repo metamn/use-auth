@@ -37,7 +37,7 @@ const FinsterAPI = props => {
     <button>Logout</button>
   ) : (
     <>
-      <button onClick={() => login(loginAPICallProps)}>Login</button>
+      <button onClick>Login</button>
       <button>Register</button>
     </>
   );
