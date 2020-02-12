@@ -9,11 +9,12 @@ import { AuthProvider } from "./hooks";
 //import FinsterStrategy from "./components/FinsterStrategy";
 //import FinsterForms from "./components/FinsterForms";
 //import FinsterProtected from "./components/FinsterProtected";
+import FinsterAPI from "./components/FinsterAPI";
 
 const App = () => {
   return (
     <AuthProvider strategy="finsterAPI">
-      <h3>With use-api</h3>
+      <FinsterAPI />
       <Router>
         <ul>
           <li>
