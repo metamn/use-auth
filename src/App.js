@@ -5,10 +5,10 @@ import { AuthProvider } from "./hooks";
 
 //import DefaultStrategy from "./components/DefaultStrategy";
 //import LocalStrategy from "./components/LocalStrategy";
-import FinsterStrategy from "./components/FinsterStrategy";
 //import ReqresStrategy from "./components/ReqresStrategy";
-
+import FinsterStrategy from "./components/FinsterStrategy";
 import FinsterForms from "./components/FinsterForms";
+import FinsterProtected from "./components/FinsterProtected";
 
 const App = () => {
   return (
@@ -24,6 +24,9 @@ const App = () => {
           <li>
             <Link to="/forms">Forms (dynamic props)</Link>
           </li>
+          <li>
+            <Link to="/protected">Protected area</Link>
+          </li>
         </ul>
         <Switch>
           <Route path="/no-forms">
@@ -31,6 +34,9 @@ const App = () => {
           </Route>
           <Route path="/forms">
             <FinsterForms />
+          </Route>
+          <Route path="/protected">
+            <FinsterProtected />
           </Route>
           <Route path="/"></Route>
         </Switch>
