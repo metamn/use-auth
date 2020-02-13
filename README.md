@@ -2,6 +2,10 @@
 
 React authentication hook with pluggable strategies.
 
+## Update
+
+There is a better looking (more slim components) version of this library called [use-auth-slim](https://github.com/metamn/use-auth-slim/).
+
 ## Why another library?
 
 - [Awesome React](https://github.com/enaqx/awesome-react) has one single entry for auth, with JWT
